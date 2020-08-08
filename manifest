@@ -1,5 +1,5 @@
 nx
-    ../nuxt.ts/components/nx
+    ../xmh-home-page-spa/src/components/nx
 utils
     ../tenant-seller/utils
 fmtUtil
