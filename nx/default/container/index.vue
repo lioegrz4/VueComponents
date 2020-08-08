@@ -9,12 +9,15 @@ import { Prop } from "vue-property-decorator";
 import ExVue from "vue";
 
 @Component
-export default class Raft extends ExVue {
-  @Prop() value;
+export default class Container extends ExVue {
+  @Prop() x;
+  @Prop() y;
+  @Prop() z;
 }
 </script>
 <style>
 .common-container {
   display: flex;
+  flex-flow: column nowrap;
 }
 </style>
