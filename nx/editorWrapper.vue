@@ -110,10 +110,6 @@ export default class NxEditorWrapper extends Vue {
               JSON.stringify({ id: "main", path: this.path })
             );
           },
-          // dragenter & dragover 需要 preventDefault，才允许 drop
-          dragenter: ev => {
-            ev.preventDefault();
-          },
           dragleave: ev => {
             ev.preventDefault();
             this.readyForDrop = false;
