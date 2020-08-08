@@ -21,3 +21,5 @@ formBuilder
     ../tenant-seller/src/business/__common/formItem.vue
 formatter
     ../tenant-seller/src/business/__common/formatter
+scroll container
+    ../xmh-home-page-spa/src/components/Scroll.vue
