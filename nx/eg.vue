@@ -10,7 +10,7 @@ import Nx from "./index.vue";
 import NxDock from "./dock.vue";
 
 export default {
-  name: "nxText",
+  name: "nxEG",
   components: { Nx, NxDock },
   data() {
     return {
