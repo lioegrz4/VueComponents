@@ -1,0 +1,17 @@
+checkbox       : checkbox.js
+formatter      : formatter.js
+'date-packer'  : datePacker.js
+'time-packer'  : timePacker.js
+'switch'       : switch.js
+#'complex-input': complexInput.js
+template       : template
+select         : select.js
+input          : input.js
+row            : row.js
+separator      : separator
+radio          : radio.js
+textarea       : textarea.js
+dynamic        : dynamic.js
+rate           : rate.js
+tags           : tags.js
+imgUpload      : imgUpload.js

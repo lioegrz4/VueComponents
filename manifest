@@ -1,0 +1,23 @@
+nx
+    ../nuxt.ts/components/nx
+utils
+    ../tenant-seller/utils
+fmtUtil
+    ../tenant-seller/src/utils/fmtUnit.js
+fmtDate
+    ../tenant-seller/src/utils/date.js
+DragContainer
+    ../tenant-seller/src/business/__common/DragContainer
+widget
+    ../tenant-seller/src/business/__common/widget
+schemaEditor
+    ../tenant-seller/src/business/__common/schemaEditor
+    ../tenant-seller/src/business/__common/schemaBuilder.js
+    ../tenant-seller/src/business/sandbox/schema test
+formBuilder
+    ../tenant-seller/src/business/__common/table.vue
+    ../tenant-seller/src/business/__common/tableItem.vue
+    ../tenant-seller/src/business/__common/form.vue
+    ../tenant-seller/src/business/__common/formItem.vue
+formatter
+    ../tenant-seller/src/business/__common/formatter
