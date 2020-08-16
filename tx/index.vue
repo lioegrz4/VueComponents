@@ -1,18 +1,21 @@
 <script lang=ts>
 import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { Prop, Watch } from "vue-property-decorator";
 import Vue from "vue";
 import { VNode, CreateElement } from "vue/types";
 import _ from "lodash";
 import { Text, iText, Cursor } from "./types";
 import { fromJS, List, Map, Record } from "immutable";
+import keyToInstruction from "./keymap";
+import execInstruction from "./instruction";
 
 @Component
 export default class Tx extends Vue {
   @Prop() value: Text;
   @Prop() editable: boolean;
-  history: Array<iText> = [fromJS(this.value)];
   cursor: Cursor = [0, 0, 0];
+
+  history: Array<iText> = [fromJS(this.value)];
   get _v(): iText {
     return _.last(this.history);
   }
@@ -22,28 +25,46 @@ export default class Tx extends Vue {
   getValue() {
     return this._v.toJS();
   }
+
+  keysSequences = new Array();
+  @Watch("keysSequences")
+  ksChange(val, oldVal) {
+    if (val.length === 0) return
+    let instruction = keyToInstruction(val);
+    execInstruction({
+      instruction,
+      cursor: this.cursor,
+      value: this._v,
+      history: this.history
+    });
+    if (instruction[0] !== 'waiting') this.keysSequences = new Array()
+  }
+
   render(h: CreateElement): VNode {
+    let self = this;
     return h(
       "div",
       {
         class: ["tx-container"],
+        domProps: {
+          contentEditable: true
+          //tabIndex: 0
+        },
         on: {
           click(ev) {
-            console.log(ev);
+            //self.$el.focus();
           },
-          keyup: (ev) => {
+          keyup: ev => {
             // 如果触发事件的元素不是事件绑定的元素
-            // 则返回
             if (ev.target !== ev.currentTarget) return;
-            // 如果按下去的不是 enter 键或者
-            // 没有同时按下 shift 键
-            // 则返回
-            if (!ev.shiftKey || ev.keyCode !== 13) return;
-            // 阻止 事件冒泡
             ev.stopPropagation();
-            // 阻止该元素默认的 keyup 事件
             ev.preventDefault();
-            console.log(ev);
+            // let {shiftKey, metaKey, ctrlKey, altKey, key, keyCode} = ev
+            this.keysSequences.push(ev);
+          },
+          input: ev => {
+            console.log('input', ev.data)
+            //debugger
           }
         }
       },
