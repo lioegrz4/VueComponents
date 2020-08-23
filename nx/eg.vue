@@ -1,7 +1,7 @@
 <template>
     <div style="display: flex">
         <input type="checkbox" v-model="NxEditable"/>
-        <Nx :payload="NxValue" :editable="NxEditable"></Nx>
+        <Nx :value="NxValue" :editable="NxEditable"></Nx>
         <NxDock v-if="NxEditable" style="padding: 0.5em;"></NxDock>
     </div>
 </template>
@@ -21,29 +21,29 @@ export default {
 };
 
 const NxData = {
-  type: "container",
+  kind: "container",
   props: {
     x: 123
   },
   children: [{
-      type: "container",
+      kind: "container",
       props: {
         y: 456
       },
       children: [{
-        type: "logo",
+        kind: "logo",
         props: {
           value: 789
         }
       }]
     },
     {
-      type: "container",
+      kind: "container",
       props: {
         z: 111
       },
       children: [{
-        type: "logo",
+        kind: "logo",
         props: {
           value: 111
         }

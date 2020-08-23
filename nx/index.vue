@@ -14,7 +14,7 @@ import operation from "./operation";
 export default class Nx extends Vue {
   @Prop({ default: () => new Array() })
   path: Path;
-  @Prop() payload: Content;
+  @Prop() value: Content;
   @Prop() status: Status;
   @Prop() recursion: boolean;
   @Prop() editable: boolean;
@@ -25,8 +25,8 @@ export default class Nx extends Vue {
   manifest: { [k in string]: Manifest} = manifest;
   // 根元素可编辑模式下复制一份数据，避免修改原始数据
   payload_: Content = this.isRoot && this.editable
-    ? _.cloneDeep(this.payload)
-    : this.payload;
+    ? _.cloneDeep(this.value)
+    : this.value;
   // 根元素向下传递 wrapperHandle，非根元素接收 handler 并向下传递
   handler_ = this.isRoot ? this.wrapperHandle : this.handler;
   //
@@ -48,7 +48,7 @@ export default class Nx extends Vue {
   }
   render(h: CreateElement): VNode {
     let self = this;
-    let comp = this.manifest[this.payload_.type].component;
+    let comp = this.manifest[this.payload_.kind].component;
     let attrs = {
       recursion: this.recursion,
       editable: this.editable
@@ -58,7 +58,7 @@ export default class Nx extends Vue {
       this.payload_.children.map((x, ix) => {
         return h("Nx", {
           props: {
-            payload: x,
+            value: x,
             handler: this.handler_,
             path: [...this.path, "children", ix],
             status: this.status_,
@@ -82,7 +82,7 @@ export default class Nx extends Vue {
               status: this.status_,
               handler: this.handler_,
               isRoot: this.isRoot,
-              isContainer: this.manifest[this.payload_.type].container
+              isContainer: this.manifest[this.payload_.kind].container
             }
           },
           [node]

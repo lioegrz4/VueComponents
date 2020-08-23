@@ -2,7 +2,7 @@ import { Component } from 'vue/types';
 import _ from 'lodash'
 
 export interface Content {
-  type: string;
+  kind: string;
   children: Array<Content>;
   style?: Array<string>;
   props: {[k in string]: any};

@@ -31,7 +31,7 @@ export default class NxEditorDock extends Vue {
                   "text/json",
                   JSON.stringify({
                     id: "dock",
-                    type: x
+                    kind: x
                   }) ); }} },
           [
             x,
