@@ -1,6 +1,6 @@
-import { Content, getProps } from "./manifest";
+import { Content, getProps, getNode } from "./manifest";
 import { Status, Path } from "./types";
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 interface OpCtx {
     data: Content
@@ -39,7 +39,6 @@ export default (ctx: OpCtx) => {
                 ? handleDragMain
                 : payload.id === 'dock'
                 && handleDragDock
-            // handleDragDock 时，以下两个对象都有 type 字段。`事件类型`被`组件类型`覆盖
             fn({ ...ctx, ...payload })
             break
         default:
@@ -53,11 +52,15 @@ function handleModify({args, params, src}) {
     console.log('src', src)
 }
 
-function handleDragDock({ self, data, src:target, pos, kind }) {
-    let e = _(data).get(target)
+function handleDragDock({ self, data, src:target, pos, kind, type }) {
+    let e = getNode(target)(data)
     if (!e.children) {self.$set(e, 'children', [])}
     e.children.push({props:{}, kind})
 }
 function handleDragMain({ self, data, src:target, pos, path:src }) {
-    console.log(pos, 'target', target, 'src', src)
+    let sp = _.flow(_.initial, getNode)(src)(data)
+    let t = getNode(target)(data)
+    let s = getNode(src)(data)
+    t.children.push(s)
+    self.$delete(sp, _.last(src))
 }

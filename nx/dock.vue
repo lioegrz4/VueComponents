@@ -32,18 +32,41 @@ export default class NxEditorDock extends Vue {
                   JSON.stringify({
                     id: "dock",
                     kind: x
-                  }) ); }} },
+                  })
+                );
+              }
+            }
+          },
           [
-            x,
+            this.manifest[x].name,
+            this.manifest[x].container
+              ? h(
+                  "sup",
+                  {
+                    'class': ["NxDock__sup"]
+                  },
+                  ["[_]"]
+                )
+              : "",
             h(
               "span",
               {
                 style: { fontSize: "1em", color: "grey", padding: "0.3em" }
               },
               ["[", _.keys(getProps(x)).join(","), "]"]
-            ) ] ) ) ); }
+            )
+          ]
+        )
+      )
+    );
+  }
 }
 </script>
 <style>
-
+  .NxDock__sup {
+    top: -0.5em;
+    position: relative;
+    font-size: xx-small;
+    color: blueviolet;
+  }
 </style>

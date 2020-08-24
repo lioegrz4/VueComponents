@@ -1,5 +1,5 @@
 import { Component } from 'vue/types';
-import _ from 'lodash'
+import _ from 'lodash/fp'
 
 export interface Content {
   kind: string;
@@ -9,6 +9,7 @@ export interface Content {
 }
 
 export interface Manifest {
+  name: string
   container: boolean
   path: string
   component?: Component
@@ -16,10 +17,17 @@ export interface Manifest {
 
 export const manifest: { [k: string]: Manifest } = {
   container: {
+    name: "容器",
     path: "default/container",
     container: true,
   },
+  linear: {
+    name: "线性容器",
+    path: "default/linear",
+    container: true,
+  },
   logo: {
+    name: "logo",
     path: "default/logo",
     container: false,
   }
@@ -33,6 +41,10 @@ Object.keys(manifest).forEach(k => {
 export const getProps = x => {
   let comp = manifest[x].component as any;
   let p = typeof comp === "function" ? comp.options.props : comp.props;
-  let ret = _.pick(p, _.keys(p));
+  let ret = _.pick(_.keys(p))(p);
   return ret;
 };
+
+export const getNode = path => src => {
+  return path.length === 0 ? src : _(src).get(path)
+}
