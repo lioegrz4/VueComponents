@@ -4,6 +4,7 @@ import { Prop } from "vue-property-decorator";
 import Vue from "vue";
 import { VNode, CreateElement } from "vue/types";
 import _ from "lodash";
+import { manifest, Manifest, Content } from "./manifest";
 import { HandlerArg, Path, Status } from "./types";
 
 const editorBar = (h: CreateElement, self) => {
@@ -33,7 +34,9 @@ const editorBar = (h: CreateElement, self) => {
               self.handler({
                 type: x,
                 path: self.path,
-                payload: self.$refs.w as Element
+                payload: {
+                  target: self.$refs.w as Element
+                }
               });
             }
           }
@@ -58,12 +61,13 @@ const getPos = ({ offsetX: x, offsetY: y }, { height, width }) => {
 };
 
 @Component
-export default class NxEditorWrapper extends Vue {
+export default class NxStructuralEditMode extends Vue {
   @Prop() status: Status;
   @Prop() path: Path;
   @Prop() handler: (x: HandlerArg) => any;
   @Prop() isRoot: boolean;
   @Prop() isContainer: boolean;
+  @Prop() value: Content
   readyForDrop: boolean = false;
   get active(): boolean {
     return _.isEqual(this.path, _(this.status.currentPath).last());
@@ -76,7 +80,7 @@ export default class NxEditorWrapper extends Vue {
       "div",
       {
         class: {
-          NxEditorWrapper: true,
+          NxStructuralEditMode: true,
           active: this.active
         },
         style: {
@@ -93,14 +97,18 @@ export default class NxEditorWrapper extends Vue {
             this.handler({
               type: "mouseenter",
               path: this.path,
-              payload: this.$refs.w as Element
+              payload: {
+                target: this.$refs.w as Element
+              }
             });
           },
           mouseleave: ev => {
             this.handler({
               type: "mouseleave",
               path: this.path,
-              payload: this.$refs.w as Element
+              payload: {
+                target: this.$refs.w as Element
+              }
             });
           },
           dragstart: ev => {
@@ -145,7 +153,7 @@ export default class NxEditorWrapper extends Vue {
 }
 </script>
 <style>
-.NxEditorWrapper {
+.NxStructuralEditMode {
   display: flex;
   position: relative;
 }

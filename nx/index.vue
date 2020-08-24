@@ -7,7 +7,8 @@ import _ from "lodash";
 
 import { manifest, Manifest, Content } from "./manifest";
 import { Status, Path, HandlerArg } from "./types";
-import editorWrapper from "./editorWrapper.vue";
+import structuralEditorWrapper from "./structuralEditorWrapper.vue";
+import linearEditorWrapper from "./linearEditorWrapper.vue";
 import operation from "./operation";
 
 @Component
@@ -17,14 +18,27 @@ export default class Nx extends Vue {
   @Prop() value: Content;
   @Prop() status: Status;
   @Prop() recursion: boolean;
-  @Prop() editable: boolean;
+  @Prop() editMode: "structural" | "linear" | "none" | undefined;
   @Prop() handler: (x: HandlerArg) => any;
   get isRoot(): boolean {
     return this.path.length === 0;
   }
-  manifest: { [k in string]: Manifest} = manifest;
+  get isContainer(): boolean {
+    return this.manifest[this.payload_.kind].container;
+  }
+  get editorWrapper() {
+    return (
+      this.editMode &&
+      {
+        linear: linearEditorWrapper,
+        structural: structuralEditorWrapper,
+        none: undefined
+      }[this.editMode]
+    );
+  }
+  manifest: { [k in string]: Manifest } = manifest;
   // 根元素可编辑模式下复制一份数据，避免修改原始数据
-  payload_: Content = this.isRoot && this.editable
+  payload_: Content = this.isRoot && this.editMode
     ? _.cloneDeep(this.value)
     : this.value;
   // 根元素向下传递 wrapperHandle，非根元素接收 handler 并向下传递
@@ -48,10 +62,11 @@ export default class Nx extends Vue {
   }
   render(h: CreateElement): VNode {
     let self = this;
-    let comp = this.manifest[this.payload_.kind].component;
+    let concreteComponent = this.manifest[this.payload_.kind].component;
     let attrs = {
       recursion: this.recursion,
-      editable: this.editable
+      status: this.status_,
+      handler: this.handler_
     };
     let children =
       this.payload_.children &&
@@ -59,30 +74,29 @@ export default class Nx extends Vue {
         return h("Nx", {
           props: {
             value: x,
-            handler: this.handler_,
             path: [...this.path, "children", ix],
-            status: this.status_,
-            ...attrs
+            ...attrs,
+            editMode: this.editMode
           }
         });
       });
     let node = h(
-      comp,
+      concreteComponent,
       {
-        props: { ...this.payload_.props, ...attrs }
+        props: this.payload_.props
       },
       children
     );
-    return this.editable
+    return this.editorWrapper
       ? h(
-          editorWrapper,
+          this.editorWrapper,
           {
             props: {
+              value: this.payload_,
               path: this.path,
-              status: this.status_,
-              handler: this.handler_,
+              ...attrs,
               isRoot: this.isRoot,
-              isContainer: this.manifest[this.payload_.kind].container
+              isContainer: this.isContainer
             }
           },
           [node]

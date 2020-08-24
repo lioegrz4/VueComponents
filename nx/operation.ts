@@ -25,8 +25,11 @@ export default (ctx: OpCtx) => {
             // console.log(type, src, payload)
             break
         case '修改':
-            console.log('实参', arg.props)
-            console.log('形参', getProps(arg.kind))
+            handleModify({
+                args: getProps(arg.kind),
+                params: arg.props,
+                src
+            })
             break
         case '删除':
             self.$delete(_(data).get(src.slice(0, -1)), _(src).last())
@@ -42,6 +45,12 @@ export default (ctx: OpCtx) => {
         default:
             console.log(`无效操作 ${type}`)
     }
+}
+
+function handleModify({args, params, src}) {
+    console.log('实参', params)
+    console.log('形参', args)
+    console.log('src', src)
 }
 
 function handleDragDock({ self, data, src:target, pos, kind }) {
