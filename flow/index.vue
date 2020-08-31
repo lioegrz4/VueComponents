@@ -100,10 +100,18 @@ export default {
           );
         })}
         <div class="flow-action_bar">
-          <el-button disabled={!this.current.ready}
-                     on-click={this.onNext} >
-             { this.end.label === this.currentTab ? this.doneText : this.nextText }
-          </el-button>
+          { this.end.label === this.currentTab
+            ? <el-button disabled={!this.current.ready}
+                         type="success" round
+                         on-click={this.onNext} >
+                {this.doneText}
+              </el-button>
+            : <el-button disabled={!this.current.ready}
+                         type="primary" round
+                         on-click={this.onNext} >
+                {this.nextText}
+              </el-button> }
+
         </div>
       </el-tabs>
     );
@@ -113,12 +121,16 @@ export default {
 <style>
 .flow-container .el-tabs__content {
   position: relative;
+  flex: 1 1 0;
+  overflow-y: auto;
 }
 .flow-container .flow-action_bar {
   display: flex;
+  width: 100%;
+  bottom: .5rem;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: absolute;
 }
 .el-tabs__item.is-disabled {
   color: rgb(222, 222, 222) !important;
