@@ -1,7 +1,5 @@
-<template>
-  <div class="logo">
-    {{value}}
-  </div>
+<template lang="pug">
+  .logo {{value}}
 </template>
 <script>
 export default {

@@ -1,7 +1,6 @@
-<template>
-    <div class="linear-container">
-        <slot></slot>
-    </div>
+<template lang="pug">
+    .linear-container
+        slot
 </template>
 <script lang="ts">
 import Component from "vue-class-component";

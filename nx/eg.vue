@@ -1,21 +1,16 @@
-<template>
-    <div class="nx-editor">
-        <div>
-          <select v-model="NxEditMode" style="align-self: flex-start">
-            <option v-for="i in ['none','structural', 'linear']" :key="i">{{i}}</option>
-          </select>
-          <button @click="history.pop()">undo</button>
-        </div>
-        <div>
-          <Nx v-model="NxValue" :editMode="NxEditMode"></Nx>
-          <NxPropsPanel></NxPropsPanel>
-          <NxDock v-if="NxEditMode==='structural'" style="padding: 0.5em;"></NxDock>
-        </div>
-        <div>
-          <div v-for="(i, ix) in history" :key="ix"
-               @click="history.push(i)">{{i.time}}</div>
-        </div>
-    </div>
+<template lang="pug">
+    .nx-editor
+        div
+            select(v-model="NxEditMode" style="align-self: flex-start")
+                option(v-for="i in ['none','structural', 'linear']" :key="i") {{i}}
+            button(@click="history.pop()") undo
+        div
+            Nx(v-model="NxValue" :editMode="NxEditMode")
+            NxPropsPanel
+            NxDock(v-if="NxEditMode==='structural'" style="padding: 0.5em;")
+        div: div(v-for="(i, ix) in history" :key="ix"
+                 @click="history.push(i)"
+                ) {{i.time}}
 </template>
 <script lang="ts">
 import Component from "vue-class-component";

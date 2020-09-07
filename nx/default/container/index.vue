@@ -1,7 +1,6 @@
-<template>
-    <div class="common-container">
-        <slot></slot>
-    </div>
+<template lang="pug">
+    .common-container
+        slot
 </template>
 <script lang="ts">
 import Component from "vue-class-component";

@@ -1,7 +1,6 @@
-<template>
-    <div class="raft-container">
-        <slot></slot>
-    </div>
+<template lang="pug">
+    .raft-container
+        slot
 </template>
 <script lang="ts">
 import Component from "vue-class-component";
