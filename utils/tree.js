@@ -98,11 +98,12 @@ function treeduce (ctx,
   let acc    = init
   let config = {entry, init, handler, reducer, branch, prop}
   Object.keys(ctx).forEach(key => {
-    if (typeof ctx[key] === 'object' && entry({ctx, key, path})) {
-      if (branch) acc = reducer(acc, handler({ctx, key, path}))
-      acc = reducer(acc, treeduce(ctx[key], config, [...path, key]))
+    let it = ctx[key], context = {ctx, key, path, it}
+    if (typeof it === 'object' && entry(context)) {
+      if (branch) acc = reducer(acc, handler(context))
+      acc = reducer(acc, treeduce(it, config, [...path, key]))
     } else {
-      acc = reducer(acc, handler({ctx, key, path, end: true}))
+      acc = reducer(acc, handler(Object.assign(context, {end: true})))
     }
   })
   if (prop) ctx[prop] = acc
