@@ -8,7 +8,7 @@ const walkDirSync = (dir, handler, res = {}) => {
       res[f] = {}
       walkDirSync(pt, handler, res[f])
     } else {
-      let hres = handler(f, pt) || {}
+      let hres = handler(f, pt)
       if (hres instanceof Array) {
         res[hres[0]] = hres[1]
       } else {
