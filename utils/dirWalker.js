@@ -1,15 +1,19 @@
-let fs   = require('fs')
-let path = require('path')
+const fs = require('fs')
+const path = require('path')
 
-let walkDirSync = (dir, handler, res = {}) => {
+const walkDirSync = (dir, handler, res = {}) => {
   for (let f of fs.readdirSync(path.resolve(dir))) {
     let pt = path.join(dir, f)
     if (fs.statSync(pt).isDirectory()) {
       res[f] = {}
       walkDirSync(pt, handler, res[f])
     } else {
-      let {key, value} = handler(f, pt) || {}
-      res[key]         = value
+      let hres = handler(f, pt) || {}
+      if (hres instanceof Array) {
+        res[hres[0]] = hres[1]
+      } else {
+        res[f] = hres
+      }
     }
   }
   return res
