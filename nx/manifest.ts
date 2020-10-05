@@ -17,20 +17,25 @@ export interface Manifest {
 
 export const manifest: { [k: string]: Manifest } = {
   container: {
-    name: "容器",
-    path: "default/container",
+    name: "行容器",
+    path: "default/row",
     container: true,
   },
   linear: {
-    name: "线性容器",
-    path: "default/linear",
+    name: "列容器",
+    path: "default/col",
     container: true,
   },
-  logo: {
-    name: "logo",
-    path: "default/logo",
+  txt: {
+    name: "文本",
+    path: "default/txt",
+    container: false
+  },
+  img: {
+    name: "图像",
+    path: "default/img",
     container: false,
-  }
+  },
 }
 
 Object.keys(manifest).forEach(k => {

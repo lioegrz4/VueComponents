@@ -19,8 +19,9 @@ export default class Nx extends Vue {
   path: Path;
   @Prop() value: Content;
   @Prop() status: Status;
+  @Prop() components: {[k:string]: Manifest};
   @Prop() recursion: boolean;
-  @Prop() editMode: "structural" | "linear" | "none" | undefined;
+  @Prop() editMode: "structural" | "linear" | "tree" | "none" | undefined;
   @Prop() handler: (x: HandlerArg) => any;
   get isRoot(): boolean {
     return this.path.length === 0;
@@ -38,7 +39,7 @@ export default class Nx extends Vue {
       }[this.editMode]
     );
   }
-  manifest: { [k in string]: Manifest } = manifest;
+  manifest: { [k in string]: Manifest } = {...this.components, ...manifest} ;
   status_: Status = !this.isRoot
     ? this.status
     : {

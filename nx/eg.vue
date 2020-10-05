@@ -49,19 +49,19 @@ export default class NxEG extends Vue {
 }
 
 const NxData = {
-  kind: "container",
+  kind: "col",
   props: {
     x: 123
   },
   children: [
     {
-      kind: "container",
+      kind: "row",
       props: {
         y: 456
       },
       children: [
         {
-          kind: "logo",
+          kind: "txt",
           props: {
             value: 789
           }
@@ -69,13 +69,13 @@ const NxData = {
       ]
     },
     {
-      kind: "container",
+      kind: "row",
       props: {
         z: 111
       },
       children: [
         {
-          kind: "logo",
+          kind: "txt",
           props: {
             value: 111
           }

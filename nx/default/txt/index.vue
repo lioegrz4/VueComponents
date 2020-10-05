@@ -1,6 +1,5 @@
 <template lang="pug">
-    .raft-container
-        slot
+span {{value}}
 </template>
 <script lang="ts">
 import Component from "vue-class-component";
@@ -12,11 +11,5 @@ export default class Raft extends ExVue {
   @Prop() value;
 }
 </script>
-<style>
-.raft-container > * {
-  transition: all 1s ease;
-}
-.raft-container > *:hover {
-  transform: translateX(10%);
-}
+<style lang="stylus">
 </style>

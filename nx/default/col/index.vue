@@ -1,19 +1,18 @@
 <template lang="pug">
-    .linear-container
+    .column-container
         slot
 </template>
 <script lang="ts">
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import ExVue from "vue";
+import Vue from "vue";
 
 @Component
-export default class LinearContainer extends ExVue {
+export default class ColumnContainer extends Vue {
 }
 </script>
-<style>
-.linear-container {
-  display: flex;
-  flex-flow: column nowrap;
-}
+<style lang="stylus">
+.column-container
+  display   flex
+  flex-flow column nowrap
 </style>

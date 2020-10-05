@@ -5,18 +5,14 @@
 <script lang="ts">
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import ExVue from "vue";
+import Vue from "vue";
 
 @Component
-export default class Container extends ExVue {
-  @Prop() x;
-  @Prop() y;
-  @Prop() z;
+export default class RowContainer extends Vue {
 }
 </script>
-<style>
-.common-container {
-  display: flex;
-  flex-flow: column nowrap;
-}
+<style lang="stylus">
+.common-container
+    display   flex
+    flex-flow row wrap
 </style>
