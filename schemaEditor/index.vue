@@ -22,8 +22,7 @@
 <script>
   import schemaItem from './item.vue'
   import itemDetail from './itemDetail.vue'
-  import { getIn, setIn } from '@u/lambda'
-  const l = $ll('@c/schemaEditor/index.vue')
+  import { get } from 'lodash/fp'
 
   export default {
     name      : 'SchemaEditor',
@@ -55,7 +54,7 @@
           this.$emit('input', this.payload.root)
           //setIn(this.payload, path, value)
         } else {
-          l(cur, end, path, ';error on handleChange')
+          console.log(cur, end, path, ';error on handleChange')
         }
       },
       exec ({type, payload}) {
@@ -75,7 +74,7 @@
     },
     computed  : {
       currPayload () {
-        return getIn(this.payload, this.current)
+        return get(this.current)(this.payload)
       }
     },
     created () {

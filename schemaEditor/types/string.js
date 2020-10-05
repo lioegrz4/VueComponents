@@ -1,4 +1,3 @@
-const l = $ll('@c/schemaEditor/types/string.js')
 export default (h, self) => {
   let enu = self.schema.enum
   let ops = {

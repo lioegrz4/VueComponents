@@ -35,9 +35,9 @@
                                          method: this.method,
                                          url   : this.url,
                                        })
-          l(this.result)
+          console.log(this.result)
         } catch (e) {
-          l(e, ';error')
+          console.log(e, ';error')
         }
       },
     },

@@ -1,9 +1,15 @@
-import { all, pluck, k } from '@u/lambda'
-import { genLogger } from '../../../utils/logger'
+import { const as k } from 'lodash/fp'
 import camelcase from 'camelcase'
 import fields from './widget/manifest.yml'
 import available from './widget/available.yml'
-const l = genLogger('@c/schemaBuilder.js')
+const all    = (facts, pred, succ, fail) => {
+  for (let i of facts) {
+    if (!pred(i)) {
+      return fail(i)
+    }
+  }
+  return succ(facts)
+}
 
 const includeAndInstanceOf = (n, t) => {
   return {

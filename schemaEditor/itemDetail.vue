@@ -34,7 +34,6 @@
 <script>
   import itemEditor from './itemEditor.vue'
 
-  const l = $ll('@c/schemaEditor/itemDetail.vue')
   export default {
     name      : 'SchemaEditorItemDetail',
     props     : ['value', 'path', 'schema'],

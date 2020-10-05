@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-  import { getIn } from '@u/lambda'
+  import { get } from 'lodash/fp'
   import insertItem from './insertItem.vue'
 
   /*

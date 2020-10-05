@@ -1,8 +1,7 @@
 <script>
   import internTypes from './types'
 
-  const l = $ll('@c/schemaEditor/itemEditor.vue')
-  export default {
+    export default {
     name    : 'SchemaEditorItemEditor',
     props   : ['value', 'schema', 'title', 'path', 'types'],
     computed: {

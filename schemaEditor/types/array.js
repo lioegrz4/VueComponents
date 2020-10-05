@@ -1,4 +1,3 @@
-const l = $ll('@c/schemaEditor/types/array.js')
 export default (h, self) => {
   let items    = self.schema.items
   return h('schema-editor-item-editor', {

@@ -1,4 +1,3 @@
-const l = $ll('@c/schemaEditor/types/string.js')
 export default (h, self) => {
   return h('input', {
     domProps: {

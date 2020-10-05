@@ -1,4 +1,3 @@
-const l = $ll('@c/schemaEditor/types/object.js')
 export default (h, self) => {
   let properties = self.schema.properties
   let children   = []
