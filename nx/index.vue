@@ -9,6 +9,7 @@ import { manifest, Manifest, Content } from "./manifest";
 import { Status, Path, HandlerArg } from "./types";
 import structuralEditorWrapper from "./mode/structuralEditorWrapper.vue";
 import linearEditorWrapper from "./mode/linearEditorWrapper.vue";
+import treeEditorWrapper from "./mode/treeEditorWrapper.vue";
 import operation from "./operation";
 
 const VERBOSE = false
@@ -35,6 +36,7 @@ export default class Nx extends Vue {
       {
         linear: linearEditorWrapper,
         structural: structuralEditorWrapper,
+        tree: treeEditorWrapper,
         none: undefined
       }[this.editMode]
     );
