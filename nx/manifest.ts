@@ -16,12 +16,12 @@ export interface Manifest {
 }
 
 export const manifest: { [k: string]: Manifest } = {
-  container: {
+  row: {
     name: "行容器",
     path: "default/row",
     container: true,
   },
-  linear: {
+  col: {
     name: "列容器",
     path: "default/col",
     container: true,

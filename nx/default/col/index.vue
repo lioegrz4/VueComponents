@@ -15,4 +15,5 @@ export default class ColumnContainer extends Vue {
 .column-container
   display   flex
   flex-flow column nowrap
+  flex      1 0 auto
 </style>

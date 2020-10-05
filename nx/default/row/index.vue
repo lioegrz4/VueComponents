@@ -1,5 +1,5 @@
 <template lang="pug">
-    .common-container
+    .row-container
         slot
 </template>
 <script lang="ts">
@@ -12,7 +12,8 @@ export default class RowContainer extends Vue {
 }
 </script>
 <style lang="stylus">
-.common-container
+.row-container
     display   flex
     flex-flow row wrap
+    flex      1 0 auto
 </style>

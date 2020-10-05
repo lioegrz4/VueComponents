@@ -2,7 +2,7 @@
     .nx-editor
         div
             select(v-model="NxEditMode" style="align-self: flex-start")
-                option(v-for="i in ['none','structural', 'linear']" :key="i") {{i}}
+                option(v-for="i in ['none', 'structural', 'linear', 'tree']" :key="i") {{i}}
             button(@click="history.pop()") undo
         div
             Nx(v-model="NxValue" :editMode="NxEditMode")
@@ -50,15 +50,9 @@ export default class NxEG extends Vue {
 
 const NxData = {
   kind: "col",
-  props: {
-    x: 123
-  },
   children: [
     {
       kind: "row",
-      props: {
-        y: 456
-      },
       children: [
         {
           kind: "txt",
@@ -70,14 +64,52 @@ const NxData = {
     },
     {
       kind: "row",
-      props: {
-        z: 111
-      },
       children: [
         {
           kind: "txt",
           props: {
             value: 111
+          }
+        },
+        {
+          kind: "img",
+          props: {
+            value: 'https://www.haskell.org/static/img/haskell-logo.svg?etag=ukf3Fg7-'
+          }
+        },
+        {
+          kind: "txt",
+          props: {
+            value: "asdf"
+          }
+        }
+      ]
+    },
+    {
+      kind: 'row',
+      children: [
+        {
+          kind: 'txt',
+          props: {
+            value: '1'
+          }
+        },
+        {
+          kind: 'txt',
+          props: {
+            value: '2'
+          }
+        },
+        {
+          kind: 'txt',
+          props: {
+            value: '3'
+          }
+        },
+        {
+          kind: 'txt',
+          props: {
+            value: '4'
           }
         }
       ]

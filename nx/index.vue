@@ -7,8 +7,8 @@ import _ from "lodash/fp";
 
 import { manifest, Manifest, Content } from "./manifest";
 import { Status, Path, HandlerArg } from "./types";
-import structuralEditorWrapper from "./structuralEditorWrapper.vue";
-import linearEditorWrapper from "./linearEditorWrapper.vue";
+import structuralEditorWrapper from "./mode/structuralEditorWrapper.vue";
+import linearEditorWrapper from "./mode/linearEditorWrapper.vue";
 import operation from "./operation";
 
 const VERBOSE = false
@@ -19,7 +19,7 @@ export default class Nx extends Vue {
   path: Path;
   @Prop() value: Content;
   @Prop() status: Status;
-  @Prop() components: {[k:string]: Manifest};
+  @Prop() components: {[k:string]: Manifest} | undefined;
   @Prop() recursion: boolean;
   @Prop() editMode: "structural" | "linear" | "tree" | "none" | undefined;
   @Prop() handler: (x: HandlerArg) => any;
