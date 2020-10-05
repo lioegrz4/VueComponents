@@ -5,8 +5,7 @@
 </template>
 <script>
   import { formSchema, tableSchema } from '@c/schemaBuilder.js'
-  const l = $ll('SrcBusinessSandboxSchemaFormIndexVue')
-  import editor from '@c/schemaEditor/index.vue'
+  import editor from '../../index.vue'
   let formDef = formSchema(form => {
 
     form.dynamic('dy').label('动态列表')

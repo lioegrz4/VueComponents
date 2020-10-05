@@ -8,7 +8,6 @@
   </div>
 </template>
 <script>
-  const l = $ll('sandbox/schema/api/request.vue')
   import item from '@c/schemaEditor/item.vue'
   export default {
     name   : 'schema_api_request',

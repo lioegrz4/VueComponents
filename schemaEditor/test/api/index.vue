@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-  import editor from '@c/schemaEditor/index.vue'
+  import editor from '../../index.vue'
   import yaml from 'js-yaml'
   import CONF from '../../../../../gateway/conf.yml'
   import request from './request.vue'
