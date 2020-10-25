@@ -1,0 +1,93 @@
+.f
+    display flex
+    flex 1 0 auto
+    flex-wrap nowrap
+    position relative
+    &.v
+        flex-direction column
+    &.h
+        flex-direction row
+    &.z
+        flex-wrap wrap
+    &.o
+        align-items center
+    &.x
+        align-items stretch
+    &.js
+        justify-content flex-start
+    &.jc
+        justify-content center
+    &.ja
+        justify-content space-around
+    &.jb
+        justify-content space-between
+    &.oo>* , > .oo
+        flex-grow 0
+        flex-shrink 0
+    &.ii>* , > .ii
+        flex-grow 1
+        flex-shrink 1
+    &.r>* , > .r
+        flex-basis 0
+    &._41>* , >._41
+        flex-basis 25%
+    &._21>* , >._21
+        flex-basis 50%
+    &._51>* , >._51
+        flex-basis 20%
+
+.scrollx
+    overflow-x auto
+.scrolly
+    overflow-y auto
+.scroll
+    flex 1 1 0
+    overflow-y auto
+
+
+.abs
+    position absolute
+
+.ease
+    transition all 1s ease
+
+.pointer
+    cursor pointer
+
+.picture
+    width 100%
+    height auto
+
+.mt
+    margin-top 1em
+
+.mb
+    margin-bottom 1em
+
+.mr
+    margin-right 1em
+
+.box
+    padding 1em
+    &.wd
+        padding 1em 4em 1em 4em
+    &.grey
+        background-color #E8E8E8
+
+.txt
+    &.grey
+        color #888
+    &.white
+        color white
+    &.black
+        color black
+    &.blue
+        color #03F
+    &.bold
+        font-weight bold
+    &.sm
+        font-size 12px
+    &.md
+        font-size 16px
+    &.lg
+        font-size 20px
