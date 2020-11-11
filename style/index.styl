@@ -9,34 +9,73 @@
         flex-direction row
     &.z
         flex-wrap wrap
-    &.io
-        align-items center
+
+
     &.ix
         align-items stretch
-    &.ib
-        align-items baseline
+    &.io
+        align-items center
     &.is
         align-items flex-start
     &.ie
         align-items flex-end
+    &.il
+        align-items baseline
+
+    &.jo
+        justify-content center
     &.js
         justify-content flex-start
     &.je
         justify-content flex-end
-    &.jo
-        justify-content center
-    &.jx
-        justify-content stretch
     &.ja
         justify-content space-around
     &.jb
         justify-content space-between
+
+    &.xx
+        align-content stretch
+    &.xo
+        align-content center
+    &.xs
+        align-content flex-start
+    &.xe
+        align-content flex-end
+    &.xa
+        align-content space-around
+    &.xb
+        align-content space-between
+
+    &.yx
+        align-self stretch
+    &.yo
+        align-self center
+    &.ys
+        align-self flex-start
+    &.ye
+        align-self flex-end
+    &.yl
+        align-self baseline
+
+    &.s0>* , >.b0
+        flex-basis 0
+    &.s1>* , >.b1
+        flex-basis 100%
+    &.s4>* , >.b4
+        flex-basis 25%
+    &.s2>* , >.b2
+        flex-basis 50%
+    &.s5>* , >.b5
+        flex-basis 20%
+
     &.ss>* , > .s
         flex-grow 0
         flex-shrink 0
     &.ww>* , > .w
         flex-grow 1
         flex-shrink 1
+
+
     &.rr>* , > .r
         flex-basis 0
     &.__41>* , >._41
@@ -98,7 +137,6 @@
 .shadow
     box-shadow rgba(0, 0, 0, 0.12) 0px 1px 1px, rgba(0, 0, 0, 0.12) 0px 2px 4px;
     z-index 888
-
 .txt
     &.grey
         color #888
@@ -116,3 +154,34 @@
         font-size .8rem
     &.lg
         font-size 1.6rem
+
+
+html
+    height 100%
+    -webkit-text-size-adjust 100%
+    -ms-text-size-adjust: 100%
+    font-family  "Helvetica Neue",Tahoma,Arial,PingFangSC-Regular,"Hiragino Sans GB","Microsoft Yahei",sans-serif
+    font-size 17.5px
+body
+    display flex
+    margin 0
+    min-height 100%
+    line-height 1
+
+#app-wrapper
+    display flex
+    flex 1 1 auto
+    flex-flow column
+
+#app
+    color #2C3E50
+    flex 1 1 auto
+    width 100%
+
+.price
+    &:before
+        content '\A5'
+a
+    text-decoration none
+    &:focus
+        box-shadow none
