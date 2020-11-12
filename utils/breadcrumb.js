@@ -1,5 +1,4 @@
 import { findIndex } from 'lodash/fp'
-
 function getBreadcrumb(tree, pred, path){
     if (!tree.children) return
     let r = findIndex(pred)(tree.children)
@@ -13,9 +12,8 @@ function getBreadcrumb(tree, pred, path){
     }
     return
 }
-
 export const getBreadcrumbFromTree = pred => tree => {
-  return getBreadcrumb(tree, pred, [])
+    return getBreadcrumb(tree, pred, [])
 }
 
 
