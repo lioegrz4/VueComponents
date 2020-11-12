@@ -57,16 +57,26 @@
     &.yl
         align-self baseline
 
-    &.s0>* , >.b0
+    &.s0>* , >.si0
         flex-basis 0
-    &.s1>* , >.b1
+    &.s1>* , >.si1
         flex-basis 100%
-    &.s4>* , >.b4
+    &.s4>* , >.si4
         flex-basis 25%
-    &.s2>* , >.b2
+    &.s2>* , >.si2
         flex-basis 50%
-    &.s5>* , >.b5
+    &.s5>* , >.si5
         flex-basis 20%
+    &.f00>* , > .fi00
+        flex-grow 0
+        flex-shrink 0
+    &.f11>* , > .fi11
+        flex-grow 1
+        flex-shrink 1
+    &.f01>* , > .fi01
+        flex-grow 0
+        flex-shrink 1
+
 
     &.ss>* , > .s
         flex-grow 0
@@ -74,8 +84,6 @@
     &.ww>* , > .w
         flex-grow 1
         flex-shrink 1
-
-
     &.rr>* , > .r
         flex-basis 0
     &.__41>* , >._41
