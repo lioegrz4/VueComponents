@@ -21,7 +21,7 @@ const curry  = fn => curryN(fn, fn.length)
 const wrap   = wrapper => fn => async (...args) => {
   return await wrapper(fn, ...args)
 }
-const wrapS  = (...wrapper) => fn => {
+const wraps  = (...wrapper) => fn => {
   return wrapper.reduce((acc, w) => wrap(w)(acc), fn)
 }
 
