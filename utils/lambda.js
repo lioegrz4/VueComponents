@@ -22,7 +22,7 @@ const wrap   = wrapper => fn => async (...args) => {
   return await wrapper(fn, ...args)
 }
 const wrapS  = (...wrapper) => fn => {
-  return wrapper.reduce((acc, w) => wrap(w, acc), fn)
+  return wrapper.reduce((acc, w) => wrap(w)(acc), fn)
 }
 
 const seq    = (fst, ...rest) => (...args) => rest.reduce((acc, x) => x(acc, ...args),
