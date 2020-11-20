@@ -3,10 +3,10 @@ const flip   = fun => (a, b, ...rest) => fun(b, a, ...rest)
 const id     = x => x
 const nth    = n => (...args) => args[n]
 const k      = x => y => x
+const not    = pred => (...x) => !pred(...x)
 const forFun = method => (o, ...a) => o[method](...a)
 const toList = (...args) => args
-const seq    = (fst, ...rest) => (...args) => rest.reduce((acc, x) => x(acc, ...args),
-                                                          fst(...args))
+
 const curryN = (fn, consume, produce = []) => {
   return (...args) => {
     if (consume <= args.length) {
@@ -16,6 +16,15 @@ const curryN = (fn, consume, produce = []) => {
     }
   }
 }
+const curry  = fn => curryN(fn, fn.length)
+
+const wrap   = wrapper => fn => async (...args) => {
+  return wrapper(fn, ...args)
+}
+
+const seq    = (fst, ...rest) => (...args) => rest.reduce((acc, x) => x(acc, ...args),
+                                                          fst(...args))
+
 const Flow = (...f) => {
   let self = function () { throw 'oops' }
   let handler = {
@@ -31,8 +40,7 @@ const Flow = (...f) => {
   }
   return new Proxy(self, handler)
 }
-const curry  = fn => curryN(fn, fn.length)
-const not    = pred => (...x) => !pred(...x)
+
 const all    = (list, pred, succ, fail) => {
   for (let i of list) {
     if (!pred(i)) {
