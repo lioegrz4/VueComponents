@@ -19,7 +19,7 @@ const curryN = (fn, consume, produce = []) => {
 const curry  = fn => curryN(fn, fn.length)
 
 const wrap   = wrapper => fn => async (...args) => {
-  return wrapper(fn, ...args)
+  return await wrapper(fn, ...args)
 }
 
 const seq    = (fst, ...rest) => (...args) => rest.reduce((acc, x) => x(acc, ...args),
