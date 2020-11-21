@@ -21,8 +21,19 @@ const curry  = fn => curryN(fn, fn.length)
 const wrap   = wrapper => fn => async (...args) => {
   return await wrapper(fn, ...args)
 }
+
 const wraps  = (...wrapper) => fn => {
   return wrapper.reduce((acc, w) => wrap(w)(acc), fn)
+}
+
+// wraps(x1,x2,x3)(x=>console.log(0,x))(1,2,3,4)
+
+const wrapCtx= wrapper => fn => ctx => async (...args) => {
+  return await wrapper(fn, ctx, ...args)
+}
+
+const wrapx  = (...wrapper) => fn => ctx =>  {
+  return wrapper.reduce((acc, w) => wrapCtx(w)(acc)(ctx), fn)
 }
 
 const seq    = (fst, ...rest) => (...args) => rest.reduce((acc, x) => x(acc, ...args),
@@ -107,16 +118,21 @@ const wrapTip      = tip => {
 }
 const muteGet      = mkLens(({obj}) => obj)
 
-module.exports = { wrapTip
+module.exports = { log
                  , flip
                  , id
                  , nth
                  , k
+                 , not
                  , forFun
                  , toList
-                 , seq
                  , curryN
                  , curry
+                 , wrap
+                 , wraps
+                 , wrapx
+                 , seq
+                 , Flow
                  , all
                  , any
                  , pluck
@@ -124,6 +140,6 @@ module.exports = { wrapTip
                  , setIn
                  , setInV
                  , mkLens
-                 , log
+                 , wrapTip
                  , muteGet
                  }
