@@ -107,6 +107,8 @@ const mkLens       = over => obj => {
   r.over    = over
   return new Proxy(r, getterToPath)
 }
+// mkLens( ({ obj, args, path, orig }) => { })(obj)
+
 const wrapTip      = tip => {
   return mkLens(({obj}) => {
     if (obj) {
