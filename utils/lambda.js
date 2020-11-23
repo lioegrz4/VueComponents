@@ -1,11 +1,20 @@
 const log    = (...args) => console.log('<-----', ...args)
 const flip   = fun => (a, b, ...rest) => fun(b, a, ...rest)
 const id     = x => x
+const ids    = (...args) => args
+const apply  = fn => x => fn(...x)
+const unapply= fn => (...x) => fn(x)
 const nth    = n => (...args) => args[n]
 const k      = x => y => x
 const not    = pred => (...x) => !pred(...x)
 const forFun = method => (o, ...a) => o[method](...a)
-const toList = (...args) => args
+const map    = fn => l => l.map(fn)
+const ctx    = x => i => [i, x]
+const tap    = fn => x => { fn(x); return x }
+const get    = (...path) => (obj, alt) =>
+                    path.reduce((cur, idx) => cur && cur[idx], obj) || alt
+const pipe   = (fst, ...rest) => (...args) =>
+                    rest.reduce((acc, x) => x(acc, ...args), fst(...args))
 
 const curryN = (fn, consume, produce = []) => {
   return (...args) => {
@@ -19,25 +28,70 @@ const curryN = (fn, consume, produce = []) => {
 const curry  = fn => curryN(fn, fn.length)
 
 const wrap   = wrapper => fn => async (...args) => {
-  return await wrapper(fn, ...args)
+  return await wrapper(fn)(...args)
 }
 
 const wraps  = (...wrapper) => fn => {
   return wrapper.reduce((acc, w) => wrap(w)(acc), fn)
 }
 
-// wraps(x1,x2,x3)(x=>console.log(0,x))(1,2,3,4)
+/*
+let W = x => next => async (...args) => {
+  console.log(`<${x}|`)
+  let r = await next(...args)
+  console.log(`|${x}>`)
+  return r
+}
+console.log('ret: ', wraps(W(3), W(2), W(1))((...x)=>x)(1,2,3,4))
+*/
 
-const wrapCtx= wrapper => fn => ctx => async (...args) => {
-  return await wrapper(fn, ctx, ...args)
+const arange = (begin, end, step=1) => {
+  let rv = []
+  for ( let i = begin; i <= end; i += step) {
+    rv.push(i)
+  }
+  return rv
+}
+const range = (...args) => args.length === 1
+            ? arange(0, args[0], 1)
+            : arange(...args)
+
+
+// console.log(apply(pipe)(map(ctx)(range(1,3)))(0)) // [ [ [ 0, 1 ], 2 ], 3 ]
+
+
+const wrapCtx = wrapper => (fn, ctx) => async (...args) => {
+  return await wrapper(fn, ctx)(...args)
 }
 
-const wrapx  = (...wrapper) => fn => ctx =>  {
-  return wrapper.reduce((acc, w) => wrapCtx(w)(acc)(ctx), fn)
+const wrapx = (...wrapper) => fn => ctx =>  {
+  return wrapper.reduce((acc, w) => wrapCtx(w)(acc, ctx), fn)
 }
+// for koa
+// const wrapk = (...w) => apply(wrapx)(map(flip)(w))
+// const wrapk = (...w) => pipe(map(flip), apply(wrapx))(w)
+const wrapk = unapply(pipe(map(flip), apply(wrapx)))
 
-const seq    = (fst, ...rest) => (...args) => rest.reduce((acc, x) => x(acc, ...args),
-                                                          fst(...args))
+
+const compose = (...fns) => (...args) => {
+  let rv = fns.slice(-1)(args)
+  for (let i = fns.length-1; i >= 0; i--) {
+    rv = fns[i](rv)
+  }
+  return rv
+}
+// const wrapk = unapply(compose(apply(wrapx), map(flip)))
+
+let W = x => (ctx, next) => async (...args) => {
+  ctx.v +=1
+  let ctxj = JSON.stringify(ctx)
+  console.log(`<${x}| ${ctxj}`)
+  let r = await next(...args)
+  console.log(`|${x}> ${ctxj}`)
+  return r
+}
+console.log('ret: ', wrapk(W(3), W(2), W(1))(id)({v: 0})(...range(1,4)))
+
 
 const Flow = (...f) => {
   let self = function () { throw 'oops' }
@@ -86,7 +140,7 @@ const setIn  = (obj, path, value) => {
   }
   return obj // fluent api
 }
-const setInV = seq(setIn, nth(3))
+const setInV = pipe(setIn, nth(3))
 
 const getterToPath = {
   apply (target, ctx, args) {
@@ -123,18 +177,27 @@ const muteGet      = mkLens(({obj}) => obj)
 module.exports = { log
                  , flip
                  , id
+                 , ids
                  , nth
                  , k
+                 , map
+                 , ctx
+                 , apply
+                 , unapply
                  , not
                  , forFun
-                 , toList
                  , curryN
                  , curry
+                 , range
+                 , tap
+                 , compose
                  , wrap
                  , wraps
                  , wrapx
-                 , seq
+                 , wrapk
+                 , pipe
                  , Flow
+                 , get
                  , all
                  , any
                  , pluck
