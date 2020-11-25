@@ -70,18 +70,12 @@ const wrapx = (...wrapper) => fn => ctx =>  {
 // for koa
 // const wrapk = (...w) => apply(wrapx)(map(flip)(w))
 // const wrapk = (...w) => pipe(map(flip), apply(wrapx))(w)
-const wrapk = unapply(pipe(map(flip), apply(wrapx)))
+// const wrapk = unapply(pipe(map(flip), apply(wrapx)))
 
+const compose = (...fns) => (...args) => pipe(...fns.reverse())(...args)
+const wrapk = unapply(compose(apply(wrapx), map(flip)))
 
-const compose = (...fns) => (...args) => {
-  let rv = fns.slice(-1)(args)
-  for (let i = fns.length-1; i >= 0; i--) {
-    rv = fns[i](rv)
-  }
-  return rv
-}
-// const wrapk = unapply(compose(apply(wrapx), map(flip)))
-
+/*
 let W = x => (ctx, next) => async (...args) => {
   ctx.v +=1
   let ctxj = JSON.stringify(ctx)
@@ -91,7 +85,7 @@ let W = x => (ctx, next) => async (...args) => {
   return r
 }
 console.log('ret: ', wrapk(W(3), W(2), W(1))(id)({v: 0})(...range(1,4)))
-
+*/
 
 const Flow = (...f) => {
   let self = function () { throw 'oops' }
