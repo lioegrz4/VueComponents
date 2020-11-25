@@ -1,6 +1,3 @@
-<style lang="stylus" scoped>
-
-</style>
 <template lang="pug">
 
 </template>
@@ -19,3 +16,6 @@ export default class extends Vue {
     }
 }
 </script>
+<style lang="stylus" scoped>
+
+</style>
