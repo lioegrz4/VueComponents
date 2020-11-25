@@ -5,9 +5,9 @@
 
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator"
-import { namespace, Getter, Mutation, Action }    from 'vuex-class'
-import _                        from "lodash/fp"
+import { Vue, Component, Prop, Emit, Watch }   from "vue-property-decorator"
+import { namespace, Getter, Mutation, Action } from 'vuex-class'
+import _                                       from "lodash/fp"
 
 @Component({
     name: "",
