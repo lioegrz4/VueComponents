@@ -9,9 +9,9 @@ Vue.use(Vuex)
 
 ${imps}
 
-/*******************************
-* 此文件内容自动生成，修改无效 *
-*******************************/
+/*****
+此文件内容由 ${ph.relative(ph.resolve('..'), __filename)} 生成
+*/
 const store = new Vuex.Store({
     modules: { ${modules}
              }

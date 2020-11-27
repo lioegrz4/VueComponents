@@ -2,15 +2,16 @@ const fs = require('fs')
 const ph = require('path')
 const yml = require('js-yaml')
 const yLoad = x => yml.load(fs.readFileSync(x, 'utf-8'))
+const { pipe } = require('./lambda')
 const PAGES_PATH = ph.resolve(__dirname, '../pages')
 const routeStr = (cfg, imp) => `
 import VueRouter from 'vue-router'
 import { scrollBehavior } from './scrollBehavior'
 
 ${imp}
-/*******************************
-* 此文件内容自动生成，修改无效 *
-*******************************/
+/*****
+此文件内容由 ${ph.relative(ph.resolve('..'), __filename)} 生成
+*/
 export default new VueRouter({
     routes : ${cfg},
     scrollBehavior
@@ -49,5 +50,5 @@ const walkDir = (src, p=[]) => {
 
 
 fs.writeFileSync(ph.resolve(__dirname,'..', 'router', 'index.ts'),
-   deQuoteImport(routeStr(JSON.stringify(walkDir(PAGES_PATH), null, 4), genImport(imps)))
+    pipe(routeStr, deQuoteImport)(JSON.stringify(walkDir(PAGES_PATH), null, 4), genImport(imps))
 )
