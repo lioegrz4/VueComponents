@@ -11,8 +11,7 @@ const forFun = method => (o, ...a) => o[method](...a)
 const map    = fn => l => l.map(fn)
 const ctx    = x => i => [i, x]
 const tap    = fn => x => { fn(x); return x }
-const get    = (...path) => (obj, alt) =>
-                    path.reduce((cur, idx) => cur && cur[idx], obj) || alt
+const get    = (...path) => obj => path.reduce((cur, idx) => cur && cur[idx], obj)
 const pipe   = (fst, ...rest) => (...args) =>
                     rest.reduce((acc, x) => x(acc, ...args), fst(...args))
 
