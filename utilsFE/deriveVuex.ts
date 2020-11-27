@@ -6,7 +6,7 @@ const mkGetter  = i => state => state[i]
 const mkSetter  = i => (state, payload) => state[i] = payload
 const mkSetterA = i => (state, payload) => state[i].push(payload)
 const mkSetterM = i => (state, payload) => {
-    if (!isArray(payload) || payload.length!==2) throw `setter#${i}:payload require [key, value]`
+    if (!isArray(payload) || payload.length!==2) throw `setter#commit('${i}', payload) payload require [key, value]`
     Vue.set(state[i], payload[0], payload[1])
 }
 
