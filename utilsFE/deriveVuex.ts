@@ -13,9 +13,9 @@ export function deriveModule (dfts, config) {
         r.state[i] = dfts[i]
         let getter = state => state[i]
           , setter = (state, payload) => state[i] = payload
-        r.getters['get' + upperFirst[i]] = getter
+        r.getters['get' + upperFirst(i)] = getter
         r.getters[i] = getter
-        r.mutations['set' + upperFirst[i]] = setter
+        r.mutations['set' + upperFirst(i)] = setter
         r.mutations[i] = setter
     }
     return merge(r, config)
