@@ -87,6 +87,8 @@
         display subgrid
     &.i
         display inline-grid
+    &.ar
+        grid-auto-rows minmax(1em, auto)
 
     &.gs
         grid-gap .2em
@@ -97,40 +99,40 @@
     &.gl
         grid-gap 2em
 
-    &.ac
+    &.fc
         grid-auto-flow column
-    &.ad
+    &.fd
         grid-auto-flow dense
 
     &.c2
-        grid-template-columns 1fr 1fr
+        grid-template-columns repeat(2, 1fr)
     &.c3
-        grid-template-columns 1fr 1fr 1fr
+        grid-template-columns repeat(3, 1fr)
     &.c4
-        grid-template-columns 1fr 1fr 1fr 1fr
+        grid-template-columns repeat(4, 1fr)
     &.c5
-        grid-template-columns 1fr 1fr 1fr 1fr 1fr
+        grid-template-columns repeat(5, 1fr)
     &.c6
-        grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-columns repeat(6, 1fr)
     &.r7
-        grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-columns repeat(7, 1fr)
     &.r8
-        grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-columns repeat(8, 1fr)
 
     &.r2
-        grid-template-rows 1fr 1fr
+        grid-template-rows repeat(2, 1fr)
     &.r3
-        grid-template-rows 1fr 1fr 1fr
+        grid-template-rows repeat(3, 1fr)
     &.r4
-        grid-template-rows 1fr 1fr 1fr 1fr
+        grid-template-rows repeat(4, 1fr)
     &.r5
-        grid-template-rows 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows repeat(5, 1fr)
     &.r6
-        grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows repeat(6, 1fr)
     &.r7
-        grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows repeat(7, 1fr)
     &.r8
-        grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows repeat(8, 1fr)
 
     &.is
         align-content start
