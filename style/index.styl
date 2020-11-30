@@ -3,6 +3,8 @@
     flex 1 0 auto
     flex-wrap nowrap
     position relative
+    &.i
+        display inline-flex
     &.v
         flex-direction column
     &.h
@@ -12,51 +14,50 @@
     &.z
         flex-wrap wrap
 
-
-    &.ix
-        align-items stretch
-    &.io
-        align-items center
     &.is
         align-items flex-start
     &.ie
         align-items flex-end
+    &.io
+        align-items center
+    &.ix
+        align-items stretch
     &.il
         align-items baseline
 
-    &.jo
-        justify-content center
     &.js
         justify-content flex-start
     &.je
         justify-content flex-end
+    &.jo
+        justify-content center
     &.ja
         justify-content space-around
     &.jb
         justify-content space-between
 
-    &.xx
-        align-content stretch
-    &.xo
-        align-content center
     &.xs
         align-content flex-start
     &.xe
         align-content flex-end
+    &.xo
+        align-content center
+    &.xx
+        align-content stretch
     &.xa
         align-content space-around
     &.xb
         align-content space-between
 
-    &.yx
-        align-self stretch
-    &.yo
-        align-self center
-    &.ys
+    >.ys
         align-self flex-start
-    &.ye
+    >.ye
         align-self flex-end
-    &.yl
+    >.yo
+        align-self center
+    >.yx
+        align-self stretch
+    >.yl
         align-self baseline
 
     &._0>* , >.__0                     , &.s0>* , >.si0
@@ -69,6 +70,7 @@
         flex-basis 50%
     &._5>* , >.__5                     , &.s5>* , >.si5
         flex-basis 20%
+
     &._00>* , > .__00                  , &.f00>* , > .fi00
         flex-grow 0
         flex-shrink 0
@@ -78,6 +80,140 @@
     &._01>* , > .__01                  , &.f01>* , > .fi01
         flex-grow 0
         flex-shrink 1
+
+.g
+    display gird
+    &.s
+        display subgrid
+    &.i
+        display inline-grid
+
+    &.gs
+        grid-gap .2em
+    &.gm
+        grid-gap .5em
+    &.gb
+        grid-gap 1em
+    &.gl
+        grid-gap 2em
+
+    &.ac
+        grid-auto-flow column
+    &.ad
+        grid-auto-flow dense
+
+    &.c2
+        grid-template-columns 1fr 1fr
+    &.c3
+        grid-template-columns 1fr 1fr 1fr
+    &.c4
+        grid-template-columns 1fr 1fr 1fr 1fr
+    &.c5
+        grid-template-columns 1fr 1fr 1fr 1fr 1fr
+    &.c6
+        grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr
+    &.r7
+        grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+    &.r8
+        grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+
+    &.r2
+        grid-template-rows 1fr 1fr
+    &.r3
+        grid-template-rows 1fr 1fr 1fr
+    &.r4
+        grid-template-rows 1fr 1fr 1fr 1fr
+    &.r5
+        grid-template-rows 1fr 1fr 1fr 1fr 1fr
+    &.r6
+        grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr
+    &.r7
+        grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+    &.r8
+        grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+
+    &.is
+        align-content start
+    &.ie
+        align-content end
+    &.io
+        align-content center
+    &.ix
+        align-content stretch
+    &.ia
+        align-content space-around
+    &.ib
+        align-content space-between
+    &.jn
+        align-content space-evenly
+
+    &.js
+        justify-content start
+    &.je
+        justify-content end
+    &.jo
+        justify-content center
+    &.jx
+        justify-content stretch
+    &.ja
+        justify-content space-around
+    &.jb
+        justify-content space-between
+    &.jn
+        justify-content space-evenly
+
+    &.xs
+        align-items start
+    &.xe
+        align-items end
+    &.xo
+        align-items center
+    &.xx
+        align-items stretch
+
+    &.ys
+        justify-items start
+    &.ye
+        justify-items end
+    &.yo
+        justify-items center
+    &.yx
+        justify-items stretch
+
+    >._xs
+        align-self start
+    >._xe
+        align-self end
+    >._xo
+        align-self center
+    >._xx
+        align-self stretch
+
+    >._ys
+        justify-self start
+    >._ye
+        justify-self end
+    >._yo
+        justify-self center
+    >._yx
+        justify-self stretch
+
+    >.sc2
+        grid-column-end span 2
+    >.sc3
+        grid-column-end span 3
+    >.sc4
+        grid-column-end span 4
+    >.sc5
+        grid-column-end span 5
+    >.sr2
+        grid-row-end span 2
+    >.sr3
+        grid-row-end span 3
+    >.sr4
+        grid-row-end span 4
+    >.sr5
+        grid-row-end span 5
 
 
 .scrollx
@@ -131,6 +267,8 @@
         padding 1em 4em 1em 4em
     &.grey
         background-color #E8E8E8
+    &.bd
+        border 1px solid
     &.round
         border 1px solid
         border-radius 5px
