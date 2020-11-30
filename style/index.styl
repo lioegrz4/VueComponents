@@ -83,12 +83,18 @@
 
 .g
     display grid
+    grid-auto-rows minmax(auto, 1fr)
+    grid-auto-columns minmax(auto, 1fr)
     &.s
         display subgrid
     &.i
         display inline-grid
-    &.ar
-        grid-auto-rows minmax(1em, auto)
+    &.r
+        grid-auto-flow row
+    &.c
+        grid-auto-flow column
+    &.d
+        grid-auto-flow dense
 
     &.gs
         grid-gap .2em
@@ -98,11 +104,6 @@
         grid-gap 1em
     &.gl
         grid-gap 2em
-
-    &.fc
-        grid-auto-flow column
-    &.fd
-        grid-auto-flow dense
 
     for i in (1 .. 12)
         &.c{i}
@@ -162,22 +163,22 @@
     &.yx
         justify-items stretch
 
-    >._xs
+    >.__xs
         align-self start
-    >._xe
+    >.__xe
         align-self end
-    >._xo
+    >.__xo
         align-self center
-    >._xx
+    >.__xx
         align-self stretch
 
-    >._ys
+    >.__ys
         justify-self start
-    >._ye
+    >.__ye
         justify-self end
-    >._yo
+    >.__yo
         justify-self center
-    >._yx
+    >.__yx
         justify-self stretch
 
 .scrollx
