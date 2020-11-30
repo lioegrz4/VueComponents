@@ -10,7 +10,7 @@ import { scrollBehavior } from './scrollBehavior'
 
 ${imp}
 /*****
-此文件内容由 ${ph.relative(ph.resolve('..'), __filename)} 生成
+此文件内容由 ${ph.relative(ph.resolve('.'), __filename)} 生成
 */
 export default new VueRouter({
     routes : ${cfg},
