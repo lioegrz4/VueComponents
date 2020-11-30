@@ -104,35 +104,15 @@
     &.fd
         grid-auto-flow dense
 
-    &.c2
-        grid-template-columns repeat(2, 1fr)
-    &.c3
-        grid-template-columns repeat(3, 1fr)
-    &.c4
-        grid-template-columns repeat(4, 1fr)
-    &.c5
-        grid-template-columns repeat(5, 1fr)
-    &.c6
-        grid-template-columns repeat(6, 1fr)
-    &.r7
-        grid-template-columns repeat(7, 1fr)
-    &.r8
-        grid-template-columns repeat(8, 1fr)
-
-    &.r2
-        grid-template-rows repeat(2, 1fr)
-    &.r3
-        grid-template-rows repeat(3, 1fr)
-    &.r4
-        grid-template-rows repeat(4, 1fr)
-    &.r5
-        grid-template-rows repeat(5, 1fr)
-    &.r6
-        grid-template-rows repeat(6, 1fr)
-    &.r7
-        grid-template-rows repeat(7, 1fr)
-    &.r8
-        grid-template-rows repeat(8, 1fr)
+    for i in 1 2 3 4 5 6 7 8 9 10 11 12
+        &.c{i}
+            grid-template-columns repeat(i, 1fr)
+        &.r{i}
+            grid-template-rows repeat(i, 1fr)
+        >.sc{i}
+            grid-column-end span i
+        >.sr{i}
+            grid-row-end span i
 
     &.is
         align-content start
@@ -199,24 +179,6 @@
         justify-self center
     >._yx
         justify-self stretch
-
-    >.sc2
-        grid-column-end span 2
-    >.sc3
-        grid-column-end span 3
-    >.sc4
-        grid-column-end span 4
-    >.sc5
-        grid-column-end span 5
-    >.sr2
-        grid-row-end span 2
-    >.sr3
-        grid-row-end span 3
-    >.sr4
-        grid-row-end span 4
-    >.sr5
-        grid-row-end span 5
-
 
 .scrollx
     overflow-x auto
