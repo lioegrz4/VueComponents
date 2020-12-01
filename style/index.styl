@@ -105,7 +105,13 @@
     &.gl
         grid-gap 2em
 
-    for i in (1 .. 12)
+
+    for i in 1..5
+        &.t{i}
+            grid-template-columns repeat(i, auto)
+            grid-template-rows repeat(i, auto)
+
+    for i in 1..12
         &.c{i}
             grid-template-columns repeat(i, 1fr)
         &.r{i}
