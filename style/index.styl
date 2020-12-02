@@ -1,3 +1,22 @@
+colors = 'gray'   gainsboro
+       , 'white'  white
+       , 'black'  black
+       , 'purple' orchid
+       , 'blue'   skyblue
+       , 'cyan'   cadetblue
+       , 'green'  palegreen
+       , 'brown'  peru
+       , 'yellow' lemonchiffon
+       , 'orange' orange
+       , 'red'    salmon
+       , 'pink'   pink
+
+sizes  = 'sm'   .6rem
+       , 'md'   .8rem
+       , 'lg'   1.6rem
+       , 'xl'   2rem
+       , 'xxl'  4rem
+
 .f
     display flex
     flex 1 0 auto
@@ -230,40 +249,34 @@
 ._m>* , .m
     margin 0.5em
 
+
 ._box>* , .box
     padding .5rem
     &.bb
-        border-bottom 1px solid #ddd
+        border-bottom 1px solid transparent
     &.wd
         padding 1em 4em 1em 4em
     &.grey
         background-color #E8E8E8
     &.bd
-        border 1px solid
+        border 1px solid transparent
     &.round
-        border 1px solid
+        border 1px solid transparent
         border-radius 5px
 
 .shadow
     box-shadow rgba(0, 0, 0, 0.12) 0px 1px 1px, rgba(0, 0, 0, 0.12) 0px 2px 4px;
     z-index 888
+
 .txt
-    &.grey
-        color #888
-    &.white
-        color white
-    &.black
-        color black
-    &.blue
-        color #03F
+    for c in colors
+        &.{c[0]}
+            color c[1]
+    for s in sizes
+        &.{s[0]}
+            font-size c[1]
     &.bold
         font-weight bold
-    &.sm
-        font-size .6rem
-    &.md
-        font-size .8rem
-    &.lg
-        font-size 1.6rem
 
 
 html
