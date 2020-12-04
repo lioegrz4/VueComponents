@@ -68,35 +68,35 @@ sizes  = 'sm'   .6rem
     &.xb
         align-content space-between
 
-    >.ys
+    >._ys
         align-self flex-start
-    >.ye
+    >._ye
         align-self flex-end
-    >.yo
+    >._yo
         align-self center
-    >.yx
+    >._yx
         align-self stretch
-    >.yl
+    >._yl
         align-self baseline
 
-    &._0>* , >.__0                     , &.s0>* , >.si0
+    &.__0>* , >._0                     , &.s0>* , >.si0
         flex-basis 0
-    &._1>* , >.__1                     , &.s1>* , >.si1
+    &.__1>* , >._1                     , &.s1>* , >.si1
         flex-basis 100%
-    &._4>* , >.__4                     , &.s4>* , >.si4
+    &.__4>* , >._4                     , &.s4>* , >.si4
         flex-basis 25%
-    &._2>* , >.__2                     , &.s2>* , >.si2
+    &.__2>* , >._2                     , &.s2>* , >.si2
         flex-basis 50%
-    &._5>* , >.__5                     , &.s5>* , >.si5
+    &.__5>* , >._5                     , &.s5>* , >.si5
         flex-basis 20%
 
-    &._00>* , >.__00                  , &.f00>* , > .fi00
+    &.__00>* , >._00                  , &.f00>* , > .fi00
         flex-grow 0
         flex-shrink 0
-    &._11>* , >.__11                  , &.f11>* , > .fi11
+    &.__11>* , >._11                  , &.f11>* , > .fi11
         flex-grow 1
         flex-shrink 1
-    &._01>* , >.__01                  , &.f01>* , > .fi01
+    &.__01>* , >._01                  , &.f01>* , > .fi01
         flex-grow 0
         flex-shrink 1
 
@@ -135,9 +135,9 @@ sizes  = 'sm'   .6rem
             grid-template-columns repeat(i, 1fr)
         &.r{i}
             grid-template-rows repeat(i, 1fr)
-        >.__c{i}
+        >._c{i}
             grid-column-end span i
-        >.__r{i}
+        >._r{i}
             grid-row-end span i
 
     &.is
@@ -188,22 +188,22 @@ sizes  = 'sm'   .6rem
     &.yx
         align-items stretch
 
-    >.__xs
+    >._xs
         justify-self start
-    >.__xe
+    >._xe
         justify-self end
-    >.__xo
+    >._xo
         justify-self center
-    >.__xx
+    >._xx
         justify-self stretch
 
-    >.__ys
+    >._ys
         align-self start
-    >.__ye
+    >._ye
         align-self end
-    >.__yo
+    >._yo
         align-self center
-    >.__yx
+    >._yx
         align-self stretch
 
 .scrollx
@@ -237,20 +237,20 @@ sizes  = 'sm'   .6rem
     width 100%
     height 100%
 
-._mt>* , .mt
+.__mt>* , .mt
     margin-top 1em
 
-._mb>* , .mb
+.__mb>* , .mb
     margin-bottom 1em
 
-._mr>* , .mr
+.__mr>* , .mr
     margin-right 1em
 
-._m>* , .m
+.__m>* , .m
     margin 0.5em
 
 
-._box>* , .box
+.__box>* , .box
     padding .5rem
     for c in colors
         &.bg-{c[0]}
