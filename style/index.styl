@@ -252,12 +252,19 @@ sizes  = 'sm'   .6rem
 
 ._box>* , .box
     padding .5rem
+    for c in colors
+        &.bg-{c[0]}
+            background-color: c[1]
+    for c in colors
+        &.bd-{c[0]}
+            border-color: c[1]
+    for c in colors
+        &.fg-{c[0]}
+            color: c[1]
     &.bb
         border-bottom 1px solid transparent
     &.wd
         padding 1em 4em 1em 4em
-    &.grey
-        background-color #E8E8E8
     &.bd
         border 1px solid transparent
     &.round
