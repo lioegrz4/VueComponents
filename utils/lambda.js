@@ -44,11 +44,11 @@ let W = x => next => async (...args) => {
 console.log('ret: ', wraps(W(3), W(2), W(1))((...x)=>x)(1,2,3,4))
 */
 
-const dynArgs = fn => (...args) => args.length === 1
+const rangeArgsT = fn => (...args) => args.length === 1
                                 ? fn(0, args[0], 1)
                                 : fn(...args)
 
-const range = dynArgs((begin, end, step=1) => {
+const range = rangeArgsT((begin, end, step=1) => {
   let rv = []
   for ( let i = begin; i <= end; i += step) {
     rv.push(i)
@@ -56,7 +56,7 @@ const range = dynArgs((begin, end, step=1) => {
   return rv
 })
 
-const random = dynArgs((begin, end, step=1) => {
+const random = rangeArgsT((begin, end, step=1) => {
   return Math.floor(Math.random() * (end - begin + 1) + begin)
 })
 
