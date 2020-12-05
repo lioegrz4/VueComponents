@@ -186,6 +186,7 @@ module.exports = { log
                  , curryN
                  , curry
                  , range
+                 , random
                  , tap
                  , compose
                  , wrap
