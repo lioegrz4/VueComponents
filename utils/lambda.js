@@ -57,7 +57,7 @@ const range = rangeArgsT((begin, end, step=1) => {
 })
 
 const random = rangeArgsT((begin, end, step=1) => {
-  return Math.floor(Math.random() * (end - begin + 1) + begin)
+  return Math.trunc((Math.random() * (end - begin + 1) + begin) / step) * step
 })
 
 // console.log(apply(pipe)(map(ctx)(range(1,3)))(0)) // [ [ [ 0, 1 ], 2 ], 3 ]
