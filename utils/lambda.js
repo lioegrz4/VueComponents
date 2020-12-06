@@ -9,12 +9,13 @@ const k      = x => y => x
 const not    = pred => (...x) => !pred(...x)
 const forFun = method => (o, ...a) => o[method](...a)
 const map    = fn => l => l.map(fn)
-const reduce = fn => (l, i) = l.reduce(fn, i)
+const reduce = fn => (l, i) => l.reduce(fn, i)
 const ctx    = x => i => [i, x]
 const tap    = fn => x => { fn(x); return x }
 const get    = (...path) => obj => path.reduce((cur, idx) => cur && cur[idx], obj)
 const pluck  = field => x => x[field]
 const keys   = obj => Object.keys(obj)
+const assign = obj => src => Object.assign({}, src, obj)
 const isArr  = x => x instanceof Array
 const isObj  = x => typeof x === 'object' && !(x instanceof Array)
 const isNum  = x => typeof x === 'number'
@@ -79,20 +80,21 @@ const pick = config => src => {
   let rv = {}
   switch (type(config)) {
     case 'array':
-      for (let k in config) {
+      for (let k of config) {
         rv[k] = src[k]
       }
       break
     case 'object':
-      for (let k in keys(config)) {
-        if (isStr(config[k])) {
-          rv[config[k]] = src[k]
-        } else if(isFun(config[k])) {
-          let [k1, v1] = config[k](src[k])
+      for (let k of keys(config)) {
+        let cfgv = config[k]
+        if (isStr(cfgv)) {
+          rv[cfgv] = src[k]
+        } else if(isFun(cfgv)) {
+          let [k1, v1] = cfgv(src[k])
           if (!isArr(r)) throw new Error('pick: when value of config is function, this function must return [k, v]')
           rv[k1] = v1
         } else {
-          throw new Error('pick: not support this type of config')
+          throw new Error(`pick: not support ${type(cfgv)} type of config`)
         }
       }
       break
@@ -240,6 +242,7 @@ module.exports = { log
                  , any
                  , pick
                  , keys
+                 , assign
                  , isFun
                  , isArr
                  , isObj
