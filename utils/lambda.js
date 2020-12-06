@@ -9,9 +9,22 @@ const k      = x => y => x
 const not    = pred => (...x) => !pred(...x)
 const forFun = method => (o, ...a) => o[method](...a)
 const map    = fn => l => l.map(fn)
+const reduce = fn => (l, i) = l.reduce(fn, i)
 const ctx    = x => i => [i, x]
 const tap    = fn => x => { fn(x); return x }
 const get    = (...path) => obj => path.reduce((cur, idx) => cur && cur[idx], obj)
+const pluck  = field => x => x[field]
+const keys   = obj => Object.keys(obj)
+const isArr  = x => x instanceof Array
+const isObj  = x => typeof x === 'object' && !(x instanceof Array)
+const isNum  = x => typeof x === 'number'
+const isStr  = x => typeof x === 'string'
+const isFun  = x => typeof x === 'function'
+const isBool = x => typeof x === 'boolean'
+const type   = x => {
+  if (x instanceof Array) return 'array'
+  return typeof x
+}
 const pipe   = (fst, ...rest) => (...args) =>
                     rest.reduce((acc, x) => x(acc, ...args), fst(...args))
 
@@ -61,6 +74,33 @@ const random = rangeArgsT((begin, end, step=1) => {
 })
 
 // console.log(apply(pipe)(map(ctx)(range(1,3)))(0)) // [ [ [ 0, 1 ], 2 ], 3 ]
+
+const pick = config => src => {
+  let rv = {}
+  switch (type(config)) {
+    case 'array':
+      for (let k in config) {
+        rv[k] = src[k]
+      }
+      break
+    case 'object':
+      for (let k in keys(config)) {
+        if (isStr(config[k])) {
+          rv[config[k]] = src[k]
+        } else if(isFun(config[k])) {
+          let [k1, v1] = config[k](src[k])
+          if (!isArr(r)) throw new Error('pick: when value of config is function, this function must return [k, v]')
+          rv[k1] = v1
+        } else {
+          throw new Error('pick: not support this type of config')
+        }
+      }
+      break
+    default:
+      throw new Error('pick: type of config must be array or object')
+  }
+  return rv
+}
 
 
 const wrapCtx = wrapper => (fn, ctx) => async (...args) => {
@@ -115,7 +155,6 @@ const all    = (list, pred, succ, fail) => {
   return succ(list)
 }
 const any    = (list, pred, succ, fail) => all(list, not(pred), fail, succ)
-const pluck  = field => x => x[field]
 const getIn  = (obj, path, alt) => path.reduce((cur, idx) => cur && cur[idx], obj) || alt
 const setIn  = (obj, path, value) => {
   let tg = obj, end = path.length - 1
@@ -178,6 +217,7 @@ module.exports = { log
                  , nth
                  , k
                  , map
+                 , reduce
                  , ctx
                  , apply
                  , unapply
@@ -198,7 +238,15 @@ module.exports = { log
                  , get
                  , all
                  , any
-                 , pluck
+                 , pick
+                 , keys
+                 , isFun
+                 , isArr
+                 , isObj
+                 , isNum
+                 , isStr
+                 , isBool
+                 , type
                  , getIn
                  , setIn
                  , setInV
