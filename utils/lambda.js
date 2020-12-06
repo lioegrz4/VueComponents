@@ -10,7 +10,6 @@ const not    = pred => (...x) => !pred(...x)
 const forFun = method => (o, ...a) => o[method](...a)
 const map    = fn => l => l.map(fn)
 const reduce = fn => (l, i) => l.reduce(fn, i)
-const ctx    = x => i => [i, x]
 const tap    = fn => x => { fn(x); return x }
 const get    = (...path) => obj => path.reduce((cur, idx) => cur && cur[idx], obj)
 const pluck  = field => x => x[field]
@@ -26,6 +25,7 @@ const type   = x => {
   if (x instanceof Array) return 'array'
   return typeof x
 }
+const ctx    = x => i => isFun(i) ? (...a) => [x, i(...a)] : [x, i]
 const pipe   = (fst, ...rest) => (...args) =>
                     rest.reduce((acc, x) => x(acc, ...args), fst(...args))
 
