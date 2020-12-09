@@ -18,7 +18,7 @@ const getSetter = (obj, i) => {
 
 export function deriveActions(...config) {
     return function (actions) {
-        let rv = {}
+        let rv = {}, __init = new Array()
         for (let i in actions) {
             let act = actions[i]
             // 如果 action 是对象
@@ -33,7 +33,11 @@ export function deriveActions(...config) {
                                 })
                             }
                         }
-                        rv[i] = c.handler(act, i)
+                        let rt = c.handler(act, i)
+                        // 返回函数或返回对象
+                        rv[i] = typeof rt === 'function' ? rt : rt.action
+                        // 收集初始化函数
+                        if (typeof rt.init === 'function') { __init.push(rt.init) }
                     } else {
                         rv[i] = act
                     }
@@ -42,6 +46,9 @@ export function deriveActions(...config) {
                 // 如果 action 是其它类型, 不做处理
                 rv[i] = act
             }
+        }
+        rv['__init__'] = async ctx => {
+            __init.forEach(x => x(ctx))
         }
         return rv
     }
