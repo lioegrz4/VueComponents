@@ -20,16 +20,27 @@ export function deriveActions(...config) {
     return function (actions) {
         let rv = {}
         for (let i in actions) {
-            if (isPlainObject(actions[i])) {
+            let act = actions[i]
+            // 如果 action 是对象
+            if (isPlainObject(act)) {
                 for (let c of config) {
-                    if (c.type === actions[i].type) {
-                        rv[i] = c.handler(actions[i])
+                    if (c.type === act.type) {
+                        // 如果 action 对象中有 mutations 数组且没有 setter, 生成默认 setter
+                        if (act.mutations && !act.setter) {
+                            act.setter = async ({commit}, payload) => {
+                                act.mutations.forEach(x => {
+                                    commit(x, payload)
+                                })
+                            }
+                        }
+                        rv[i] = c.handler(act, i)
                     } else {
-                        rv[i] = actions[i]
+                        rv[i] = act
                     }
                 }
             } else {
-                rv[i] = actions[i]
+                // 如果 action 是其它类型, 不做处理
+                rv[i] = act
             }
         }
         return rv
