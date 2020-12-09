@@ -16,6 +16,25 @@ const getSetter = (obj, i) => {
     return mkSetter(i)
 }
 
+export function deriveActions(...config) {
+    return function (actions) {
+        let rv = {}
+        for (let i in actions) {
+            if (isPlainObject(actions[i])) {
+                for (let c of config) {
+                    if (c.type === actions[i].type) {
+                        rv[i] = c.handler(actions[i])
+                    } else {
+                        rv[i] = actions[i]
+                    }
+                }
+            } else {
+                rv[i] = actions[i]
+            }
+        }
+        return rv
+    }
+}
 
 export function deriveModule (dfts, config) {
     let fields = Object.keys(dfts)
