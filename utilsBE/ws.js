@@ -7,36 +7,29 @@ ws.send('WebSockets are awesome!')
 */
 
 const jwt = require('jsonwebtoken')
-const { jwt: secret } = require('./secret')
+const { dist: secret } = require('./secret')
 const registry = require('./wsRegistry')
+const { get } = require('./lambda')
 
 module.exports = socket => {
+    let token = get('handshake', 'query', 'auth_token')(socket)
     try {
-        let { id } = jwt.verify(socket.protocol, secret)
-        registry.user.set(id, socket)
-        socket.__id__ = id
+        let { admin_id: id } = jwt.verify(token, secret)
+        registry.addUser(id, socket)
     } catch ({ message }) {
-        registry.guest.add(socket)
+        registry.addGuest(socket)
     }
 
-    socket.on('message', msg => {
-        let [topic, payload] = JSON.parse(msg)
-        socket.send(JSON.stringify([
-            topic,
-            {
-                ...payload,
-                id: socket.__id__,
-            }
-        ]))
-    }) // Creates an echo server
+    socket.on('echo', msg => {
+        socket.send({
+            topic: 'echo',
+            msg,
+            id: registry.getId(socket),
+        })
+    })
 
     socket.on('close', () => {
-        if (registry.guest.has(socket)) {
-            registry.guest.delete(socket)
-        }
-        if (registry.user.has(socket)){
-            registry.user.delete(socket)
-        }
+        registry.delelte(socket)
     })
 
     socket.on('error', err => {
