@@ -11,7 +11,8 @@ export const socketIO = {
             })
         }
         let action = async(ctx, ...args) => {
-            await setter(ctx, await getter(ctx, ...args))
+            let v = await getter(ctx, ...args)
+            typeof v !== 'undefined' && await setter(ctx, v)
         }
         socketioListeners[prop] = action
         return { init, action }
