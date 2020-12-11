@@ -4,7 +4,7 @@ const { regTopic } = require('../libs/wsRegistry')
 const loadHanders = () => {
     const fs = require('fs')
     const path = require('path')
-    const DIR = path.resolve(__dirname, 'handlers')
+    const DIR = path.resolve(__dirname, '..', 'handlers')
     let files = fs.readdirSync(DIR)
     let handlers = {}
     for (let i of files) {
