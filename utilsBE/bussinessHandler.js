@@ -1,7 +1,7 @@
 const http2ws = require('../libs/wsFromHttp')
-const { regTopic } = require('../libs/wsRegistry')
+const { regTopic, regUser } = require('../libs/wsRegistry')
 
-const g = {}
+const g = {regTopic, regUser}
 
 const loadHanders = () => {
     const fs = require('fs')

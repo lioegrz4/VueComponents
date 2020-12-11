@@ -41,6 +41,12 @@ class UsersRegistry {
     getUser(id) {
         return this.user.get(id)
     }
+    broadcast(fn){
+        for (let [k,v] of this.user){
+            fn(v)
+        }
+        return this
+    }
     getId(data) {
         return this._user.get(data)
     }
