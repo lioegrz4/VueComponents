@@ -1,11 +1,11 @@
 const socketioListeners = {}
 global.SOCKETIO_LISTENER = socketioListeners
 
-export const socketIO = {
+export const socketIO = prefix => ({
     type: 'socket.io',
     handler({setter, getter, client}, prop) {
         let init = (ctx) => {
-            ctx.rootGetters['socketio/client'].on(prop, (data, fn) => {
+            ctx.rootGetters['socketio/client'].on(prefix ? `${prefix}/${prop}` : prop, (data, fn) => {
                 setter(ctx, data)
                 fn&&fn(true)
             })
@@ -17,7 +17,7 @@ export const socketIO = {
         socketioListeners[prop] = action
         return { init, action }
     }
-}
+})
 
 export const socketIOEmit = {
     type: 'socket.io/emit',
