@@ -5,7 +5,10 @@ export const socketIO = {
     type: 'socket.io',
     handler({setter, getter, client}, prop) {
         let init = (ctx) => {
-            ctx.rootGetters['socketio/client'].on(prop, x => setter(ctx, x))
+            ctx.rootGetters['socketio/client'].on(prop, (data, fn) => {
+                setter(ctx, data)
+                fn(true)
+            })
         }
         let action = async(ctx, ...args) => {
             await setter(ctx, await getter(ctx, ...args))
