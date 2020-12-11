@@ -14,7 +14,7 @@ class TopicRegistry {
     setup(socket, id){
         let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
-            socket.on(t, (...args) => this.get(t)({id, token}, ...args))
+            socket.on(t, (...args) => this.get(t)({id, token, socket}, ...args))
         }
         return this
     }
