@@ -1,12 +1,34 @@
+class TopicRegistry {
+    constructor(){
+        this.topic = new Map()
+    }
+    use(topic, handler) {
+        this.topic.set(topic, handler)
+        return this
+    }
+    get(topic){
+        return this.topic.get(topic)
+    }
+    setup(socket, id){
+        for (let [t, h] of this.topic) {
+            socket.on(t, (...args) => this.get(t)({id}, ...args))
+        }
+        return this
+    }
+}
+
+let regTopic = new TopicRegistry()
+
 class UsersRegistry {
     constructor(){
         this.user = new Map()
         this._user = new WeakMap()
         this.guest = new Set()
     }
-    addUser(id, data) {
-        this.user.set(id, data)
-        this._user.set(data, id)
+    addUser(id, socket) {
+        this.user.set(id, socket)
+        this._user.set(socket, id)
+        regTopic.setup(socket, id)
         return this
     }
     addGuest(data) {
@@ -30,7 +52,9 @@ class UsersRegistry {
         }
         return this
     }
-
 }
 
-module.exports = new UsersRegistry()
+module.exports = {
+    regUser: new UsersRegistry(),
+    regTopic
+}

@@ -1,12 +1,13 @@
-let reg = require('./wsRegistry')
+let { regUser } = require('./wsRegistry')
 
 module.exports = d => {
     let offline = new Set()
     d.forEach(({aud, event, data}) => {
         aud.forEach(x => {
-            let u = reg.getUser(x)
+            let u = regUser.getUser(x)
             if (u) {
-                u.emit(event, data)
+                u.emit(event, data, ok=>{
+                })
             } else {
                 offline.add(x)
             }
