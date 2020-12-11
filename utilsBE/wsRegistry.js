@@ -1,3 +1,5 @@
+const { get } = require('./lambda')
+
 class TopicRegistry {
     constructor(){
         this.topic = new Map()
@@ -10,8 +12,9 @@ class TopicRegistry {
         return this.topic.get(topic)
     }
     setup(socket, id){
+        let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
-            socket.on(t, (...args) => this.get(t)({id}, ...args))
+            socket.on(t, (...args) => this.get(t)({id, token}, ...args))
         }
         return this
     }
