@@ -35,13 +35,7 @@ export function deriveActions(...config) {
                         }
                         let rt = c.handler(act, i)
                         // 返回函数或返回对象
-                        rv[i] = typeof rt === 'function'
-                              ? rt
-                              : rt.action
-                              || (async (ctx, ...args) => {
-                                    let v = await act.getter(ctx, ...args)
-                                    typeof v !== 'undefined' && await act.setter(ctx, v)
-                                  })
+                        rv[i] = typeof rt === 'function' ? rt : rt.action
                         // 收集初始化函数
                         if (typeof rt.init === 'function') { __init.push(rt.init) }
                     } else {
