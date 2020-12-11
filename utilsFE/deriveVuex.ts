@@ -39,7 +39,8 @@ export function deriveActions(...config) {
                         // 收集初始化函数
                         if (typeof rt.init === 'function') { __init.push(rt.init) }
                     } else {
-                        rv[i] = act
+                        // 如果已被其它 handler 处理,则使用原值
+                        rv[i] = rv[i] || act
                     }
                 }
             } else {
