@@ -7,7 +7,7 @@ export const socketIO = {
         let init = (ctx) => {
             ctx.rootGetters['socketio/client'].on(prop, (data, fn) => {
                 setter(ctx, data)
-                fn(true)
+                fn&&fn(true)
             })
         }
         let action = async(ctx, ...args) => {
@@ -22,8 +22,8 @@ export const socketIO = {
 export const socketIOEmit = {
     type: 'socket.io/emit',
     handler({}, prop) {
-        return (ctx, ...args) => {
-            ctx.rootGetters['socketio/client'].emit(prop, ...args)
+        return (ctx, arg) => {
+            ctx.rootGetters['socketio/client'].emit(prop, arg)
         }
     }
 }
