@@ -1,20 +1,40 @@
 const { get } = require('./lambda')
 
 class TopicRegistry {
-    constructor(){
+    constructor() {
         this.topic = new Map()
+        this.cascade = new Map()
     }
     use(topic, handler) {
         this.topic.set(topic, handler)
         return this
     }
-    get(topic){
+    get(topic) {
         return this.topic.get(topic)
     }
-    setup(socket, id){
+    join(topic, event) {
+        let l = this.cascade.get(event)
+        if (!l) {
+            l = new Set()
+            this.cascade.set(event, l)
+        }
+        l.add(topic)
+        return this
+    }
+    getCascade(event) {
+        let es = this.cascade.get(event)
+        return es ? [...es] : []
+    }
+    setup(socket, id) {
         let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
-            socket.on(t, (...args) => this.get(t)({id, token, socket}, ...args))
+            socket.on(t, async (...args) => {
+                let cascade = this.getCascade(t)
+                let r = await this.get(t)({ id, token, socket, cascade }, ...args)
+                for (let i of cascade) {
+                    this.get(i)({ id, token, socket, trigger: t }, r)
+                }
+            })
         }
         return this
     }
@@ -23,10 +43,10 @@ class TopicRegistry {
 let regTopic = new TopicRegistry()
 
 class UsersRegistry {
-    constructor(){
+    constructor() {
         this.user = new Map()
         this._user = new WeakMap()
-        this.guest = new Set()
+        this.guest = new WeakSet()
     }
     addUser(id, socket) {
         this.user.set(id, socket)
@@ -41,8 +61,8 @@ class UsersRegistry {
     getUser(id) {
         return this.user.get(id)
     }
-    broadcast(fn){
-        for (let [k,v] of this.user){
+    broadcast(fn) {
+        for (let [k, v] of this.user) {
             fn(v)
         }
         return this
