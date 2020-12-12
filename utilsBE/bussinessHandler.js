@@ -20,7 +20,7 @@ const handlers = loadHanders()
 for (let i in handlers){
     let h = handlers[i]
     if (typeof h.socket === 'function') {
-        if (h.socket) regTopic.use(i, h.socket.bind(h))
+        if (h.socket) regTopic.use(i, !h.socketWrapper ? h.socket.bind(h) : (...args) => h.socketWrapper.call(h, h.socket.bind(h), ...args))
         if (h.cascade) {
             for (let j of h.cascade) regTopic.join(j, i)
         }

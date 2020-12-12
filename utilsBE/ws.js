@@ -7,7 +7,7 @@ module.exports = socket => {
     let token = get('handshake', 'query', 'auth_token')(socket)
     try {
         let {admin_id : id, admin_role_id : role, admin_name : name} = jwt.verify(token, secret)
-        regUser.addUser(id, socket, {role, name})
+        regUser.addUser(id, socket, token, {role, name})
     } catch ({ message }) {
         regUser.addGuest(socket)
     }

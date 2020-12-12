@@ -62,8 +62,9 @@ class TopicRegistry {
 let regTopic = new TopicRegistry()
 
 class User {
-    constructor({socket, info, id}) {
+    constructor({socket, info, id, token}) {
         this.socket = socket
+        this.token = token
         this.info = info
         this.id = id
     }
@@ -76,8 +77,8 @@ class UsersRegistry {
         this.group = new Map()
         this.guest = new WeakSet()
     }
-    addUser(id, socket, info) {
-        let user = new User({socket, info, id})
+    addUser(id, socket, token, info) {
+        let user = new User({socket, info, id, token})
         this.user.set(id, user)
         this.addGroup(info.role, id)
         this._user.set(socket, id)
@@ -90,7 +91,7 @@ class UsersRegistry {
         return this
     }
     listGroup(g){
-        return this.group.get(g)
+        return this.group.get(g) || new Set()
     }
     addGuest(data) {
         this.guest.add(data)
@@ -101,7 +102,7 @@ class UsersRegistry {
     }
     broadcast(fn) {
         for (let [k, v] of this.user) {
-            fn(v)
+            fn(v.socket)
         }
         return this
     }
