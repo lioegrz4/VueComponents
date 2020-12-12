@@ -43,16 +43,15 @@ class TopicRegistry {
         }
         return rv
     }
-    setup(socket, id) {
+    setup(socket, user) {
         let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
             socket.on(t, async (...args) => {
                 let cascade = this.sort(t)
-                let r = await this.get(t)({ id, token, socket, cascade }, ...args)
+                let r = await this.get(t)({ user, token, socket, cascade }, ...args)
                 for (let i of cascade) {
-                    for (let j of i) {
-                        this.get(j)({ id, token, socket, trigger: t }, r, ...args)
-                    }
+                    let tasks = i.map(async j => await this.get(j)({ user, token, socket, trigger: t }, {...args[0], returnValue: r}))
+                    await Promise.all(tasks)
                 }
             })
         }
@@ -62,17 +61,36 @@ class TopicRegistry {
 
 let regTopic = new TopicRegistry()
 
+class User {
+    constructor({socket, info, id}) {
+        this.socket = socket
+        this.info = info
+        this.id = id
+    }
+}
+
 class UsersRegistry {
     constructor() {
         this.user = new Map()
         this._user = new WeakMap()
+        this.group = new Map()
         this.guest = new WeakSet()
     }
-    addUser(id, socket) {
-        this.user.set(id, socket)
+    addUser(id, socket, info) {
+        let user = new User({socket, info, id})
+        this.user.set(id, user)
+        this.addGroup(info.role, id)
         this._user.set(socket, id)
-        regTopic.setup(socket, id)
+        regTopic.setup(socket, user)
         return this
+    }
+    addGroup(g, id) {
+        if (!this.group.has(g)) this.group.set(g, new Set())
+        this.group.get(g).add(id)
+        return this
+    }
+    listGroup(g){
+        return this.group.get(g)
     }
     addGuest(data) {
         this.guest.add(data)
