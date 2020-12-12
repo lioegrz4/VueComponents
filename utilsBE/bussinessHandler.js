@@ -22,10 +22,10 @@ for (let i in handlers){
     if (typeof h.socket === 'function') {
         if (h.socket) regTopic.use(i, h.socket.bind(h))
         if (h.cascade) {
-            for (let j of h.cascade) regTopic.join(i, j)
+            for (let j of h.cascade) regTopic.join(j, i)
         }
         if (h.listen) {
-            for (let j of h.listen) regTopic.join(j, i)
+            for (let j of h.listen) regTopic.join(i, j)
         }
     }
 }

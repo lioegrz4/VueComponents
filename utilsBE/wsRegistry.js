@@ -25,14 +25,34 @@ class TopicRegistry {
         let es = this.cascade.get(event)
         return es ? [...es] : []
     }
+    sort(event) {
+        let curr = this.getCascade(event)
+          , seq = new Set(curr)
+          , rv = [curr], tmp = []
+        while (curr.length > 0) {
+            for (let i of curr) {
+                for (let j of this.getCascade(i)){
+                    if (seq.has(j)) continue
+                    seq.add(j)
+                    tmp.push(j)
+                }
+            }
+            curr = tmp
+            tmp = []
+            if (curr.length > 0) rv.push(curr)
+        }
+        return rv
+    }
     setup(socket, id) {
         let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
             socket.on(t, async (...args) => {
-                let cascade = this.getCascade(t)
+                let cascade = this.sort(t)
                 let r = await this.get(t)({ id, token, socket, cascade }, ...args)
                 for (let i of cascade) {
-                    this.get(i)({ id, token, socket, trigger: t }, r)
+                    for (let j of i) {
+                        this.get(j)({ id, token, socket, trigger: t }, r, ...args)
+                    }
                 }
             })
         }
