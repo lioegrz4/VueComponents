@@ -34,11 +34,12 @@ for (let i in handlers){
 module.exports = async app => {
     for (let i in handlers){
         let h = handlers[i]
+          , path = i.replace(/#/, '/')
         if (typeof h.post === 'function') {
-            app.post('/bussiness/'+i, h.post.bind(h))
+            app.post('/bussiness/'+path, h.post.bind(h))
         }
         if (typeof h.get === 'function') {
-            app.get('/bussiness/'+i, h.get.bind(h))
+            app.get('/bussiness/'+path, h.get.bind(h))
         }
     }
     app.post('/wshub', async (req, reply) => {

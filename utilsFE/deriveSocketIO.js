@@ -1,3 +1,4 @@
+import { upperFirst } from 'lodash/fp'
 const socketioListeners = {}
 global.SOCKETIO_LISTENER = socketioListeners
 
@@ -5,6 +6,7 @@ export const socketIO = prefix => ({
     type: 'socket.io',
     handler({setter, getter, client}, prop) {
         let ev = prefix ? `${prefix}#${prop}` : prop
+        let evt = prefix ? `${prefix}#trigger${upperFirst(prop)}` : `trigger${upperFirst(prop)}`
         let init = (ctx) => {
             ctx.rootGetters['socketio/client'].on(ev, (data, fn) => {
                 if (true) console.log(`${prefix}#${prop} receive: `, data)
@@ -17,7 +19,7 @@ export const socketIO = prefix => ({
             typeof v !== 'undefined' && await setter(ctx, v)
         }
         let trigger = (ctx, arg) => {
-            ctx.rootGetters['socketio/client'].emit(ev, arg)
+            ctx.rootGetters['socketio/client'].emit(evt, arg)
         }
         socketioListeners[prop] = action
         return { init, action, trigger }
