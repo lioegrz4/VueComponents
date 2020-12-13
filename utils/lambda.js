@@ -1,4 +1,7 @@
-const log    = (...args) => console.log('<-----', ...args)
+const p      = (...args) => {
+  console.log('<-----', ...args)
+  return args[0]
+}
 const flip   = fun => (a, b, ...rest) => fun(b, a, ...rest)
 const id     = x => x
 const ids    = (...args) => args
@@ -50,13 +53,14 @@ const wraps  = (...wrapper) => fn => {
 }
 
 /*
-let W = x => next => async (...args) => {
+let W0 = x => next => async (...args) => {
   console.log(`<${x}|`)
   let r = await next(...args)
   console.log(`|${x}>`)
   return r
 }
-console.log('ret: ', wraps(W(3), W(2), W(1))((...x)=>x)(1,2,3,4))
+wraps(W0(3), W0(2), W0(1))((...x)=>x)(1,2,3,4)
+.then(x => p('ret1: ', x))
 */
 
 const rangeArgsT = fn => (...args) => args.length === 1
@@ -130,8 +134,10 @@ let W = x => (ctx, next) => async (...args) => {
   console.log(`|${x}> ${ctxj}`)
   return r
 }
-console.log('ret: ', wrapk(W(3), W(2), W(1))(id)({v: 0})(...range(1,4)))
+p(wrapk(W(31), W(2), W(1))((...x)=>x)({v: 0})(...range(1,4)))
+.then(x=>p('ret: ', x))
 */
+
 
 const Flow = (...f) => {
   let self = function () { throw 'oops' }
@@ -213,7 +219,7 @@ const wrapTip      = tip => {
 }
 const muteGet      = mkLens(({obj}) => obj)
 
-module.exports = { log
+module.exports = { p
                  , flip
                  , id
                  , ids
