@@ -48,10 +48,15 @@ class TopicRegistry {
         for (let [t, h] of this.topic) {
             socket.on(t, async (...args) => {
                 let cascade = this.sort(t)
-                let r = await this.get(t)({ user, token, socket, cascade }, ...args)
+                let r = [await this.get(t)({ user, token, socket, cascade }, ...args)]
+                let prevR = Object.assign({}, ...r.filter(x => x))
                 for (let i of cascade) {
-                    let tasks = i.map(async j => await this.get(j)({ user, token, socket, trigger: t }, {...args[0], ...r}))
-                    await Promise.all(tasks)
+                    let tasks = i.map(async j => {
+                        return await this.get(j)(
+                            { user, token, socket, trigger: t },
+                            {...args[0], ...prevR})
+                    })
+                    r = await Promise.all(tasks)
                 }
             })
         }
