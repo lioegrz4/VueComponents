@@ -1,6 +1,5 @@
-import { merge, upperFirst } from 'lodash/fp'
+import { merge, upperFirst, isArray, isPlainObject } from 'lodash/fp'
 import Vue from 'vue'
-import {isArray, isPlainObject} from 'lodash/fp'
 
 const mkGetter  = i => state => state[i]
 const mkSetter  = i => (state, payload) => state[i] = payload
@@ -44,6 +43,8 @@ export function deriveActions(...config) {
                                   })
                         // 收集初始化函数
                         if (typeof rt.init === 'function') { __init.push(rt.init) }
+                        // 设置 trigger
+                        if (typeof rt.trigger === 'function') rv[`trigger${upperFirst(i)}`] = rt.trigger
                     } else {
                         // 如果已被其它 handler 处理,则使用原值
                         rv[i] = rv[i] || act
