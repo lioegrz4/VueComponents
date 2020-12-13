@@ -25,7 +25,7 @@ class TopicRegistry {
         let es = this.cascade.get(event)
         return es ? [...es] : []
     }
-    sort(event) {
+    linearization(event) {
         let curr = this.getCascade(event)
           , seq = new Set(curr)
           , rv = [curr], tmp = []
@@ -47,8 +47,9 @@ class TopicRegistry {
         let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
             socket.on(t, async (...args) => {
-                let cascade = this.sort(t)
+                let cascade = this.linearization(t)
                 let r = [await this.get(t)({ user, token, socket, cascade }, ...args)]
+                // 返回值合并到 ctx
                 let prevR = Object.assign({}, ...r.filter(x => x))
                 for (let i of cascade) {
                     let tasks = i.map(async j => {
