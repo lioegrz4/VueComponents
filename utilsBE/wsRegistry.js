@@ -53,7 +53,12 @@ class TopicRegistry {
                 let prevR = Object.assign({}, ...r.filter(x => x))
                 for (let i of cascade) {
                     let tasks = i.map(async j => {
-                        return await this.get(j)(
+                        let hd = this.get(j)
+                        if (!hd) {
+                            console.log(`handler ${j} not exists`)
+                            return
+                        }
+                        return await hd(
                             { user, token, socket, trigger: t },
                             {...args[0], ...prevR})
                     })
