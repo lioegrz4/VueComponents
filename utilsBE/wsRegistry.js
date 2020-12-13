@@ -50,7 +50,7 @@ class TopicRegistry {
                 let cascade = this.sort(t)
                 let r = await this.get(t)({ user, token, socket, cascade }, ...args)
                 for (let i of cascade) {
-                    let tasks = i.map(async j => await this.get(j)({ user, token, socket, trigger: t }, {...args[0], returnValue: r}))
+                    let tasks = i.map(async j => await this.get(j)({ user, token, socket, trigger: t }, {...args[0], ...r}))
                     await Promise.all(tasks)
                 }
             })
