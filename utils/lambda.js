@@ -16,13 +16,14 @@ const pluck  = field => x => x[field]
 const keys   = obj => Object.keys(obj)
 const assign = obj => src => Object.assign({}, src, obj)
 const isArr  = x => x instanceof Array
-const isObj  = x => typeof x === 'object' && !(x instanceof Array)
+const isObj  = x => typeof x === 'object' && !(x instanceof Array) && x!==null
 const isNum  = x => typeof x === 'number'
 const isStr  = x => typeof x === 'string'
 const isFun  = x => typeof x === 'function'
 const isBool = x => typeof x === 'boolean'
 const type   = x => {
   if (x instanceof Array) return 'array'
+  if (x===null) return 'null'
   return typeof x
 }
 const ctx    = x => i => isFun(i) ? (...a) => [x, i(...a)] : [x, i]
