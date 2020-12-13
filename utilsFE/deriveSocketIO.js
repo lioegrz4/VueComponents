@@ -10,13 +10,15 @@ export const socketIO = prefix => ({
         let init = (ctx) => {
             ctx.rootGetters['socketio/client'].on(ev, (data, fn) => {
                 if (true) console.log(`${prefix}#${prop} receive: `, data)
+                if (data===null) return
                 setter(ctx, data)
                 fn&&fn(true)
             })
         }
         let action = async(ctx, ...args) => {
             let v = await getter(ctx, ...args)
-            typeof v !== 'undefined' && await setter(ctx, v)
+            if (v===null) return
+            await setter(ctx, v)
         }
         let trigger = (ctx, arg) => {
             ctx.rootGetters['socketio/client'].emit(evt, arg)

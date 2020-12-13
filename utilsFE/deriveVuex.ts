@@ -39,7 +39,8 @@ export function deriveActions(...config) {
                               : rt.action
                               || (async (ctx, ...args) => {
                                     let v = await act.getter(ctx, ...args)
-                                    typeof v !== 'undefined' && await act.setter(ctx, v)
+                                    if (v===null) return
+                                    await act.setter(ctx, v)
                                   })
                         // 收集初始化函数
                         if (typeof rt.init === 'function') { __init.push(rt.init) }
