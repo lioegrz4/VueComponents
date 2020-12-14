@@ -1,5 +1,5 @@
-const p      = (...args) => {
-  console.log('<-----', ...args)
+const p = tag => (...args) => {
+  console.log(`<------<<< ${tag||''}\n`, ...args, `\n>>>------> ${tag||''}\n`)
   return args[0]
 }
 const flip   = fun => (a, b, ...rest) => fun(b, a, ...rest)
