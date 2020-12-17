@@ -1,4 +1,4 @@
-import { merge, upperFirst, isArray, isPlainObject } from 'lodash/fp'
+import { merge, upperFirst, isArray, isPlainObject, reduce } from 'lodash/fp'
 import Vue from 'vue'
 
 const mkGetter  = i => state => state[i]
@@ -63,7 +63,7 @@ export function deriveActions(...config) {
     }
 }
 
-export function deriveModule (dfts, config) {
+export function deriveModule (dfts, ...config) {
     let fields = Object.keys(dfts)
       , r = {
         namespaced: true,
@@ -80,5 +80,8 @@ export function deriveModule (dfts, config) {
         r.mutations['set' + upperFirst(i)] = setter
         r.mutations[i] = setter
     }
-    return merge(r, config)
+    let withActions = config.length > 1 && isArray(config[0])
+    return withActions
+        ? reduce(merge)([r, config[1], { actions: deriveActions(...config[0])(config[1].actions) }])
+        : merge(r, config[0])
 }
