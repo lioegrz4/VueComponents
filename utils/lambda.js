@@ -17,7 +17,7 @@ const tap    = fn => x => { fn(x); return x }
 const get    = (...path) => obj => path.reduce((cur, idx) => cur && cur[idx], obj)
 const pluck  = field => x => x[field]
 const keys   = obj => Object.keys(obj)
-const assign = (...src) => (...obj) => Object.assign({}, ...src, ...obj)
+const basis  = (...src) => (...obj) => Object.assign({}, ...src, ...obj)
 const isArr  = x => x instanceof Array
 const isObj  = x => typeof x === 'object' && !(x instanceof Array) && x!==null
 const isNum  = x => typeof x === 'number'
@@ -249,7 +249,7 @@ module.exports = { p
                  , any
                  , pick
                  , keys
-                 , assign
+                 , basis
                  , isFun
                  , isArr
                  , isObj
