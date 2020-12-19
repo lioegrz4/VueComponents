@@ -6,6 +6,7 @@ import { VNode, CreateElement } from "vue/types";
 import _ from "lodash";
 import { manifest, Manifest, Content } from "../manifest";
 import { HandlerArg, Path, Status } from "../types";
+import keymaster from 'keymaster'
 
 const getPos = ({ offsetX: x, offsetY: y }, { height, width }) => {
   return {
