@@ -1,5 +1,5 @@
 const p = tag => (...args) => {
-  console.log(`<------<<< ${tag||''}\n`, ...args, `>>>------> ${tag||''}\n\n`)
+  console.log(`<------<<< ${new Date().toISOString()} ------ ${tag||''}\n`, ...args, `\n>>>------> ${tag||''}\n\n`)
   return args[0]
 }
 const flip   = fun => (a, b, ...rest) => fun(b, a, ...rest)
