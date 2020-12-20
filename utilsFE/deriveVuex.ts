@@ -82,6 +82,6 @@ export function deriveModule (dfts, ...config) {
     }
     let withActions = config.length > 1 && isArray(config[0])
     return withActions
-        ? reduce(merge)([r, config[1], { actions: deriveActions(...config[0])(config[1].actions) }])
+        ? [r, config[1], { actions: deriveActions(...config[0])(config[1].actions) }].reduce(merge)
         : merge(r, config[0])
 }

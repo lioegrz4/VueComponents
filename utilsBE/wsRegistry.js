@@ -44,11 +44,10 @@ class TopicRegistry {
         return rv
     }
     setup(socket, user) {
-        let token = get('handshake', 'query', 'auth_token')(socket)
         for (let [t, h] of this.topic) {
             socket.on(t, async (...args) => {
                 let cascade = this.linearization(t)
-                let r = [await this.get(t)({ user, token, socket, cascade }, ...args)]
+                let r = [await this.get(t)({ user, socket, cascade }, ...args)]
                 // 返回值合并到 ctx
                 let prevR = Object.assign({}, ...r.filter(x => x))
                 for (let i of cascade) {
@@ -59,7 +58,7 @@ class TopicRegistry {
                             return
                         }
                         return await hd(
-                            { user, token, socket, trigger: t },
+                            { user, socket, trigger: t },
                             {...args[0], ...prevR})
                     })
                     r = await Promise.all(tasks)
