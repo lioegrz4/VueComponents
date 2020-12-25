@@ -12,7 +12,7 @@ const buildinRole = {
 module.exports = function(role, topic) {
     return async function(fn, {user, token, socket}, ...args) {
         if (role in buildinRole) {
-            buildinRole[role]({fn, role, topic}, {user, token, socket}, ...args)
+            await buildinRole[role]({fn, role, topic}, {user, token, socket}, ...args)
         } else if (user.info.role === role) {
             let rv = await fn({user, token, socket}, ...args)
             if (topic) socket.emit(topic, rv)
