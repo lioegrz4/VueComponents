@@ -91,7 +91,7 @@ class UsersRegistry {
         let user = new User({socket, info, id, token})
         this.user.set(id, user)
         this.addGroup(info.role, id)
-        this._user.set(socket, id)
+        this._user.set(socket, user)
         regTopic.setup(socket, user)
         return this
     }
@@ -107,7 +107,7 @@ class UsersRegistry {
         this.guest.add(data)
         return this
     }
-    getUser(id) {
+    getUserByID(id) {
         return this.user.get(id)
     }
     broadcast(fn) {
@@ -116,16 +116,16 @@ class UsersRegistry {
         }
         return this
     }
-    getId(data) {
-        return this._user.get(data)
+    getUserBySocket(socket) {
+        return this._user.get(socket)
     }
     delelte(data) {
         if (this.guest.has(data)) {
             this.guest.delete(data)
         }
         if (this.user.has(data)) {
-            let id = this._user.get(data)
-            this.user.delete(id)
+            let user = this._user.get(data)
+            this.user.delete(user.id)
             this._user.delete(data)
         }
         return this

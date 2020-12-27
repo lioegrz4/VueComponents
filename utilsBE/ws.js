@@ -1,22 +1,12 @@
-const jwt = require('jsonwebtoken')
-const { dist: secret } = require('./secret')
 const { regUser, regTopic } = require('./wsRegistry')
 const { get } = require('./lambda')
 
-module.exports = socket => {
-    let token = get('handshake', 'query', 'auth_token')(socket)
-    try {
-        let {admin_id : id, admin_role_id : role, admin_name : name} = jwt.verify(token, secret)
-        regUser.addUser(id, socket, token, {role, name})
-    } catch ({ message }) {
-        regUser.addGuest(socket)
-    }
-
+const handler = socket => {
     socket.on('echo', msg => {
         socket.send({
             topic: 'echo',
             msg,
-            id: regUser.getId(socket),
+            id: regUser.getUserBySocket(socket).id,
         })
     })
 
@@ -27,4 +17,19 @@ module.exports = socket => {
     socket.on('error', err => {
         console.log(err)
     })
+}
+
+module.exports = {
+    userHandler (socket) {
+        let token = get('handshake', 'query', 'auth_token')(socket)
+        let { decoded_token: { admin_id : id, admin_role_id : role, admin_name : name } } = socket
+        regUser.addUser(id, socket, token, {role, name})
+
+        handler(socket)
+    },
+    guestHandler (socket) {
+        regUser.addGuest(socket)
+
+        handler(socket)
+    }
 }

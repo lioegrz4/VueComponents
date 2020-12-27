@@ -11,6 +11,13 @@ const buildinRole = {
         let rv = await fn({user, socket}, ...args)
         if (topic) socket.emit(topic, rv)
     },
+    async '联播' ({fn, role, topic}, {user, socket}, ...args) {
+        regUser.broadcast(async s => {
+            let user = regUser.getUser(s)
+            let rv = await fn({user, socket: user.socket}, ...args)
+            s.emit(topic, rv)
+        })
+    },
 }
 
 module.exports = function(role, topic) {
@@ -22,7 +29,7 @@ module.exports = function(role, topic) {
             if (topic) socket.emit(topic, rv)
         } else {
             for (let i of regUser.listGroup(role)){
-                let u = regUser.getUser(i)
+                let u = regUser.getUserByID(i)
                 let rv = await fn({user:u, token:u.token, socket: u.socket}, ...args)
                 if (topic) u.socket.emit(topic, rv)
             }
