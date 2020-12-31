@@ -4,7 +4,7 @@ global.SOCKETIO_LISTENER = socketioListeners
 
 export const socketIO = prefix => ({
     type: 'socket.io',
-    handler({setter, getter, client}, prop) {
+    handler({setter, getter, client, after}, prop) {
         let ev = prefix ? `${prefix}#${prop}` : prop
         let evt = prefix ? `${prefix}#trigger${upperFirst(prop)}` : `trigger${upperFirst(prop)}`
         let init = (ctx) => {
@@ -12,7 +12,8 @@ export const socketIO = prefix => ({
                 if (true) console.log(`${prefix}#${prop} receive: `, data)
                 if (data===null) return
                 setter(ctx, data)
-                fn&&fn(true)
+                fn && fn(true)
+                after && after(ctx, data)
             })
         }
         let action = async(ctx, ...args) => {
