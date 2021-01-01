@@ -10,5 +10,5 @@ Vue.filter('toFixed', (value, bit=2) => {
 })
 
 Vue.filter('toInt', function(value, bit){
-    return value ? value.toFixed(bit || 0) : '0'
+    return value ? Math.round(value) : bit
 })
