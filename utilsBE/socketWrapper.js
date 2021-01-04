@@ -13,7 +13,7 @@ const buildinRole = {
     },
     async '联播' ({fn, role, topic}, {user, socket}, ...args) {
         regUser.broadcast(async s => {
-            let user = regUser.getUser(s)
+            let user = regUser.getUserBySocket(s)
             let rv = await fn({user, socket: user.socket}, ...args)
             s.emit(topic, rv)
         })
