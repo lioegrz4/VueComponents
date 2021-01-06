@@ -31,7 +31,8 @@ export const mkGetterP = i => state => Object.keys(state[i].value).map(x => stat
         value: mkPagination({
             async action(ctx, {page}) {
                 return(page)
-            }
+            },
+            noMore: pred?
         }),
         init(state, prop, config) {
             //debugger
@@ -40,6 +41,8 @@ export const mkGetterP = i => state => Object.keys(state[i].value).map(x => stat
             //debugger
         }
     }),
+
+    actions:: __test
 */
 
 export class LazyGetter {
