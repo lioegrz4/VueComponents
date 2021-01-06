@@ -1,9 +1,34 @@
 import { merge, upperFirst, isArray, isPlainObject, reduce } from 'lodash/fp'
 import Vue from 'vue'
 
+export class LazyGetter {
+    init : Function
+    value: any
+    initialed: boolean
+    update: Function
+    constructor({init, value, update}) {
+        this.init = init
+        this.value = value
+        this.update = update
+        this.initialed = false
+    }
+}
+
+export const mkLazyGetter = arg => new LazyGetter(arg)
+
 const mkGetter  = i => state => state[i]
+const mkGetterL = (i, lg) => state => {
+    if ( !lg.initialed && !lg.initialed ) {
+        lg.init(state, i, lg)
+        lg.initialed = true
+    }
+    if ( lg.initialed && lg.update ) {
+        lg.update(state, i, lg)
+    }
+    return state[i]
+}
 const mkSetter  = i => (state, payload) => state[i] = payload
-const mkSetterA = i => (state, payload) => state[i].push(payload)
+const mkSetterA = i => (state, payload) => isArray(payload) ? state[i] = state[i].concat(payload) : state[i].push(payload)
 const mkSetterM = i => (state, payload) => {
     if (!isArray(payload) || payload.length < 2) throw `setter#commit('${i}', payload) payload require [key, value]`
     Vue.set(state[i], payload[0], payload[1])
@@ -73,8 +98,10 @@ export function deriveModule (dfts, ...config) {
         actions: {}
     }
     for (let i of fields) {
-        r.state[i] = dfts[i]
-        let getter = mkGetter(i), setter = getSetter(dfts[i],i)
+        let isLazy = dfts[i] instanceof LazyGetter
+        r.state[i] = isLazy ? dfts[i].value : dfts[i]
+        let getter = isLazy ? mkGetterL(i, dfts[i]) : mkGetter(i)
+        let setter = getSetter(dfts[i],i)
         r.getters['get' + upperFirst(i)] = getter
         r.getters[i] = getter
         r.mutations['set' + upperFirst(i)] = setter
