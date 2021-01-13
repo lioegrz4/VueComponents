@@ -43,7 +43,8 @@ export default class extends Vue {
         this.$emit('input', {path: this.path, status, leaf} )
     }
     onInput({path, status: s, leaf}){
-        let status = leaf ? s : this.value.children.reduce((acc,x)=> acc | x.status, 0)
+        // 向上传递，当前节点必然不是 leaf，
+        let status = this.value.children.reduce((acc,x)=> acc | x.status, 0)
         this.value.status = status
         this.$emit('input', { path, leaf, status })
     }
