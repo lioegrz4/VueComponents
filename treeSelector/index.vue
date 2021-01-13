@@ -35,7 +35,7 @@ export default class extends Vue {
         state === 2 ? 1 : 2
     */
     //@Prop({default(){return 0}}) status
-    onSelect(v, t){
+    onSelect(v){
         let status = v===2 ? 1 : 2
         this.value.status = status
         let leaf = !this.value.children || this.value.children.length === 0
