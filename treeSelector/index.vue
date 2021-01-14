@@ -1,26 +1,30 @@
 <template lang="pug">
-.f.v
+.f.v(v-if="value")
     .f.h.io.box.shadow
-        checkbox(@input="onSelect(value.status)")
-        .f {{value.status}}
-        .f {{value.name}}
+        label.form-checkbox(:class="{half: value.status===3}")
+            input(type="checkbox" v-bind="{checked: value.status===2}"
+                 @input="onSelect(value.status, $event)")
+            i.form-icon
+            slot(v-bind="aggregation")
     .f.v(v-for="(v, k) in value.children")
-        treeSelect.mg(:value="v" :path="[...path, 'children', k]"
+        treeSelector.mg(:value="v" :path="[...path, 'children', k]"
                       @input="onInput"
                      )
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Emit, Watch }   from "vue-property-decorator"
-import { namespace, Getter, Action }           from 'vuex-class'
-import _                                       from "lodash/fp"
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import { namespace, Getter, Action } from "vuex-class";
+import _ from "lodash/fp";
 
 @Component({
-    name: "treeSelector",
+  name: "treeSelector"
 })
 export default class extends Vue {
-    @Prop() value
-    @Prop({default(){return []}}) path
-    /* status 使用二元组 (有选中，有未选) 表示
+  @Prop() value;
+  @Prop({ default() { return [] } }) path;
+  @Prop() agg
+  aggregation: any = {}
+  /* status 使用二元组 (有选中，有未选) 表示
     则可能状态如下：
         全选 (t, f) 2
         半选 (t, t) 3
@@ -34,31 +38,42 @@ export default class extends Vue {
     即：
         state === 2 ? 1 : 2
     */
-    //@Prop({default(){return 0}}) status
-    onSelect(v){
-        let status = v===2 ? 1 : 2
-        this.value.status = status
-        let leaf = !this.value.children || this.value.children.length === 0
-        if (!leaf) this.flushChildren(status, this.value)
-        this.$emit('input', {path: this.path, status, leaf} )
-    }
-    onInput({path, status: s, leaf}){
-        // 向上传递，当前节点必然不是 leaf，
-        let status = this.value.children.reduce((acc,x)=> acc | x.status, 0)
-        this.value.status = status
-        this.$emit('input', { path, leaf, status })
-    }
-    flushChildren(s, v){ // s : 1|2
-        v.children.forEach(x => {
-            if ((s | x.status) !== s) {
-                x.status = s
-                this.flushChildren(s, x)
-            }
-        })
-    }
+  onSelect(v, ev) {
+    let status = v === 2 ? 1 : 2;
+    this.value.status = status;
+    let leaf = !this.value.children || this.value.children.length === 0;
+    if (!leaf) this.flushChildren(status, this.value);
+    this.$emit("input", { path: this.path, status, leaf });
+  }
+  onInput({ path, status: s, leaf }) {
+    // 向上传递，当前节点必然不是 leaf，
+    let status = this.value.children.reduce((acc, x) => acc | x.status, 0);
+    this.value.status = status;
+    this.$emit("input", { path, leaf, status });
+  }
+  flushChildren(s, v) {
+    // s : 1|2
+    v.children.forEach(x => {
+      if ((s | x.status) !== s) {
+        x.status = s;
+        this.flushChildren(s, x);
+      }
+    });
+  }
 }
 </script>
 <style lang="stylus" scoped>
-.mg
-    margin 0.2em 0em 0.2em 2em
+.mg {
+    margin: 0.2em 0em 0.2em 2em;
+}
+
+.half
+    position relative
+    &::before
+        content ""
+        background-color yellow
+        width 1em
+        height 1em
+        position absolute
+
 </style>
