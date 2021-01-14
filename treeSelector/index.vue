@@ -1,13 +1,17 @@
 <template lang="pug">
 .f.v(v-if="value")
-    .f.h.io.box.shadow
-        label.form-checkbox
-            input(type="checkbox" :indeterminate.prop="value.status===3" v-bind="{checked: value.status===2}"
-                 @input="onSelect(value.status, $event)")
-            i.form-icon
-            slot(v-bind="value")
+    .f.h.io
+        .f.h.io.pd.shadow
+            label.form-checkbox
+                input(type="checkbox" :indeterminate.prop="value.status===3" v-bind="{checked: value.status===2}"
+                      @input="onSelect(value.status, $event)")
+                i.form-icon
+                slot(v-bind="value")
+        .pd.shadow
+            btn(@click="onFocus(path)"): i.icon.icon-forward
     .f.v(v-for="(v, k) in value.children")
-        treeSelector.mg(:value="v" :path="[...path, 'children', k]" @input="onInput" :agg="agg")
+        treeSelector.mg(:value="v" :path="[...path, 'children', k]" :agg="agg"
+                        @input="onInput" @focus="onFocus")
             template(slot-scope="x")
                 slot(v-bind="x")
 </template>
@@ -46,6 +50,9 @@ export default class extends Vue {
     this.flushChildren(status, this.value);
     this.$emit("input", { path: this.path, status, leaf: this.leaf });
   }
+  onFocus(v){
+      this.$emit('focus', v)
+  }
   refreshAggregation(v, c) {
       if (typeof this.agg !== 'function') return
       let leaf = !v.children || v.children.length === 0
@@ -72,5 +79,8 @@ export default class extends Vue {
 <style lang="stylus" scoped>
 .mg {
     margin: 0.2em 0em 0.2em 2em;
+}
+.pd {
+    padding 0.2em
 }
 </style>
