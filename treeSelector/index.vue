@@ -1,15 +1,15 @@
 <template lang="pug">
 .f.v(v-if="value")
     .f.h.io.box.shadow
-        label.form-checkbox(:class="{half: value.status===3}")
-            input(type="checkbox" v-bind="{checked: value.status===2}"
+        label.form-checkbox
+            input(type="checkbox" :indeterminate.prop="value.status===3" v-bind="{checked: value.status===2}"
                  @input="onSelect(value.status, $event)")
             i.form-icon
-            slot(v-bind="aggregation")
+            slot(v-bind="value")
     .f.v(v-for="(v, k) in value.children")
-        treeSelector.mg(:value="v" :path="[...path, 'children', k]"
-                      @input="onInput"
-                     )
+        treeSelector.mg(:value="v" :path="[...path, 'children', k]" @input="onInput" :agg="agg")
+            template(slot-scope="x")
+                slot(v-bind="x")
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
@@ -23,7 +23,6 @@ export default class extends Vue {
   @Prop() value;
   @Prop({ default() { return [] } }) path;
   @Prop() agg
-  aggregation: any = {}
   /* status 使用二元组 (有选中，有未选) 表示
     则可能状态如下：
         全选 (t, f) 2
@@ -38,27 +37,35 @@ export default class extends Vue {
     即：
         state === 2 ? 1 : 2
     */
+  get leaf() {
+      return !this.value.children || this.value.children.length === 0;
+  }
   onSelect(v, ev) {
     let status = v === 2 ? 1 : 2;
     this.value.status = status;
-    let leaf = !this.value.children || this.value.children.length === 0;
-    if (!leaf) this.flushChildren(status, this.value);
-    this.$emit("input", { path: this.path, status, leaf });
+    this.flushChildren(status, this.value);
+    this.$emit("input", { path: this.path, status, leaf: this.leaf });
+  }
+  refreshAggregation(v, c) {
+      if (typeof this.agg !== 'function') return
+      let leaf = !v.children || v.children.length === 0
+      this.$set(v, '_aggregation', this.agg(leaf, v, c))
   }
   onInput({ path, status: s, leaf }) {
     // 向上传递，当前节点必然不是 leaf，
     let status = this.value.children.reduce((acc, x) => acc | x.status, 0);
     this.value.status = status;
+    if (typeof this.agg==='function') this.$set(this.value, '_aggregation', this.agg(false, this.value))
     this.$emit("input", { path, leaf, status });
   }
   flushChildren(s, v) {
-    // s : 1|2
     v.children.forEach(x => {
       if ((s | x.status) !== s) {
         x.status = s;
         this.flushChildren(s, x);
       }
     });
+    this.refreshAggregation(v, s===2)
   }
 }
 </script>
@@ -66,14 +73,4 @@ export default class extends Vue {
 .mg {
     margin: 0.2em 0em 0.2em 2em;
 }
-
-.half
-    position relative
-    &::before
-        content ""
-        background-color yellow
-        width 1em
-        height 1em
-        position absolute
-
 </style>
