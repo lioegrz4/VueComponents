@@ -56,13 +56,13 @@ export default class extends Vue {
   refreshAggregation(v, c) {
       if (typeof this.agg !== 'function') return
       let leaf = !v.children || v.children.length === 0
-      this.$set(v, '_aggregation', this.agg(leaf, v, c))
+      v['_aggregation'] = this.agg(leaf, v, c)
   }
   onInput({ path, status: s, leaf }) {
     // 向上传递，当前节点必然不是 leaf，
     let status = this.value.children.reduce((acc, x) => acc | x.status, 0);
     this.value.status = status;
-    if (typeof this.agg==='function') this.$set(this.value, '_aggregation', this.agg(false, this.value))
+    if (typeof this.agg==='function')  this.value['_aggregation'] = this.agg(false, this.value)
     this.$emit("input", { path, leaf, status });
   }
   flushChildren(s, v) {
