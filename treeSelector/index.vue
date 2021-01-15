@@ -24,9 +24,6 @@ import _ from "lodash/fp";
   name: "treeSelector"
 })
 export default class extends Vue {
-  @Prop() value;
-  @Prop({ default() { return [] } }) path;
-  @Prop() agg
   /* status 使用二元组 (有选中，有未选) 表示
     则可能状态如下：
         全选 (t, f) 2
@@ -41,6 +38,12 @@ export default class extends Vue {
     即：
         state === 2 ? 1 : 2
     */
+  @Prop() value;
+  /* value 应为如下形式
+  Tree:: {children: [ Tree ], status: 1, _aggregation: {} }
+  */
+  @Prop({ default() { return [] } }) path;
+  @Prop() agg
   get leaf() {
       return !this.value.children || this.value.children.length === 0;
   }
@@ -62,7 +65,9 @@ export default class extends Vue {
     // 向上传递，当前节点必然不是 leaf，
     let status = this.value.children.reduce((acc, x) => acc | x.status, 0);
     this.value.status = status;
-    if (typeof this.agg==='function')  this.value['_aggregation'] = this.agg(false, this.value)
+    if (typeof this.agg==='function') {
+        this.value['_aggregation'] = this.agg(false, this.value)
+    }
     this.$emit("input", { path, leaf, status });
   }
   flushChildren(s, v) {
