@@ -250,6 +250,9 @@ sizes  = 'sm'   .6rem
 .__mr>* , .mr
     margin-right 1em
 
+.__ml>* , .ml
+    margin-left 1em
+
 .__m>* , .m
     margin 0.5em
 
@@ -288,6 +291,18 @@ sizes  = 'sm'   .6rem
             font-size s[1]
     &.bold
         font-weight bold
+
+// 页面不会因滚动条而跳动
+html
+  overflow-y: scroll
+:root
+  overflow-y: auto
+  overflow-x: hidden
+:root body
+  position: absolute
+body
+  width: 100vw
+  overflow: hidden
 
 
 html
