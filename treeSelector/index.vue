@@ -67,7 +67,7 @@ export default class extends Vue {
   }
   flushChildren(s, v) {
     v.children.forEach(x => {
-      if ( x.status !== s) {
+      if ( x.status !== s ) {
         x.status = s;
         this.flushChildren(s, x);
       }
