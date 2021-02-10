@@ -219,6 +219,16 @@ const wrapTip      = tip => {
 }
 const muteGet      = mkLens(({obj}) => obj)
 
+const objToKey     = (sep=[":", "|"]) => o => {
+  if (o instanceof Array) {
+      return o.map(x=>objToKey(sep)(x)).join(sep[0])
+  } else if (typeof o === 'object'){
+      return Object.keys(o).map(x => `${x}${sep[0]}${objToKey(sep)(o[x])}`).join(sep[1])
+  } else {
+      return o
+  }
+}
+
 module.exports = { p
                  , flip
                  , id
@@ -263,4 +273,5 @@ module.exports = { p
                  , mkLens
                  , wrapTip
                  , muteGet
+                 , objToKey
                  }
