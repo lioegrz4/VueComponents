@@ -219,11 +219,11 @@ const wrapTip      = tip => {
 }
 const muteGet      = mkLens(({obj}) => obj)
 
-const objToKey     = (sep=[":", "|"]) => o => {
+const objToKey     = (sep=[":", "="]) => o => {
   if (o instanceof Array) {
       return o.map(x=>objToKey(sep)(x)).join(sep[0])
   } else if (typeof o === 'object'){
-      return Object.keys(o).map(x => `${x}${sep[0]}${objToKey(sep)(o[x])}`).join(sep[1])
+      return Object.keys(o).map(x => `${x}${sep[1]}${objToKey(sep)(o[x])}`).join(sep[0])
   } else {
       return o
   }
