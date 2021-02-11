@@ -229,6 +229,17 @@ const objToKey     = (sep=[":", "="]) => o => {
   }
 }
 
+const wrapCache    = (cache, kfmt) => async ({key, get}) => {
+  let k = kfmt(key)
+  if (!await cache.has(k)) {
+      let s = new Date()
+      let payload = await get()
+      await cache.set(k, { payload, cost: new Date - s })
+  }
+  let r = await cache.get(k)
+  return r['payload']
+}
+
 module.exports = { p
                  , flip
                  , id
@@ -274,4 +285,5 @@ module.exports = { p
                  , wrapTip
                  , muteGet
                  , objToKey
+                 , wrapCache
                  }
