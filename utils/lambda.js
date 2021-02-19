@@ -240,11 +240,6 @@ const wrapCache    = (cache, kfmt) => async ({key, get}) => {
   return r['payload']
 }
 
-const loggen       = ({fs, path, sep}) => (...content) => {
-  let p = content.length===1 && content[0] instanceof Array ? content[0] : content
-  fs.appendFileSync(path, [ new Date().toISOString(), ...p ].join(sep || '\t') + '\n' )
-}
-
 module.exports = { p
                  , flip
                  , id
@@ -291,5 +286,4 @@ module.exports = { p
                  , muteGet
                  , objToKey
                  , wrapCache
-                 , loggen
                  }
