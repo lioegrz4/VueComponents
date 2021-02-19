@@ -2,10 +2,10 @@ const defaultLvProbe = (d='error') => () => process.env.NODE_LOG || d
 
 const eq = v => x => x===v
 
-const fsHandler = ({ fs, path, sep = "\t", tagSep = ":", lvProbe }) => (ls, level, tag, content) => {
+const fsHandler = ({ fs, path, sep = "\t", tagSep = ":", lvProbe }) => async (ls, level, tag, content) => {
     let Ev = ls.findIndex(eq(lvProbe())), Lv = ls.findIndex(eq(level))
     if (Lv < Ev) return
-    fs.appendFileSync(path, [new Date().toISOString(), level, tag.join(tagSep), ...content].join(sep) + '\n')
+    await fs.appendFileSync(path, [new Date().toISOString(), level, tag.join(tagSep), ...content].join(sep) + '\n')
 }
 
 const csHandler = typeof window === 'object'
@@ -55,10 +55,10 @@ module.exports = {
     loggen, fsHandler, csHandler, conslog, filelog
 }
 
-/*
+
 let fs = require('fs')
 l1 = filelog(fs, './log')
 
 l1.debug([], 123)
 l1.info(['a','b','c'], 23)
-*/
+
