@@ -55,10 +55,11 @@ module.exports = {
     loggen, fsHandler, csHandler, conslog, filelog
 }
 
-
+/*
 let fs = require('fs')
 l1 = filelog(fs, './log')
 
 l1.debug([], 123)
 l1.info(['a','b','c'], 23)
+*/
 
