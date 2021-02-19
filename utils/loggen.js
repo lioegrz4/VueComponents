@@ -2,12 +2,12 @@ const defaultLvProbe = (d='error') => () => process.env.NODE_LOG || d
 
 const eq = v => x => x===v
 
-const fsHandler = ({ fs, path, sep = "\t", tagSep = ":", lvProbe }) => async (level, tag, content) => {
+const fsHandler = ({ fs, path, sep = "\t", tagSep = ":" }) => async (level, tag, content) => {
     await fs.appendFileSync(path, [new Date().toISOString(), level, tag.join(tagSep), ...content].join(sep) + '\n')
 }
 
 const csHandler = typeof window === 'object'
-    ? (title, lvProbe, lvFmt) => (level, tag, content) => {
+    ? (title, lvFmt) => (level, tag, content) => {
         let LEAD = "color:MediumSlateBlue;font-weight:bold"
         let TAG = "color:Silver"
         if (tag.length > 0) {
@@ -23,7 +23,7 @@ const csHandler = typeof window === 'object'
                 , ...content)
         }
     }
-    : (title, lvProbe, lvFmt) => (level, tag, content) => {
+    : (title, lvFmt) => (level, tag, content) => {
         if (tag.length > 0) {
             console.log(`<--- ${title} <= ${tag.join(' <= ')}\n`
                 , ...content)
