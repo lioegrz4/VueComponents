@@ -14,8 +14,9 @@ function eval (code, context, file, cb){
 }
 
 module.exports = ({repl, prompt, context}) => {
-    let i = repl || require('repl')
-    const r = i.start({
+    repl = repl || require('repl')
+    prompt = prompt || '|> '
+    const r = repl.start({
         prompt, eval, useGlobal: true
     })
     Object.assign(r.context, shelljs, prelude, context)
