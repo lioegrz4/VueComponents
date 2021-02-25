@@ -1,6 +1,7 @@
 const vm = require('vm')
 const lsc = require('livescript')
 const prelude = require('prelude-ls')
+const shelljs = require('shelljs')
 
 function eval (code, context, file, cb){
     try {
@@ -17,6 +18,6 @@ module.exports = ({repl, prompt, context}) => {
     const r = i.start({
         prompt, eval, useGlobal: true
     })
-    Object.assign(r.context, prelude, context)
+    Object.assign(r.context, shelljs, prelude, context)
     return r
 }
