@@ -213,10 +213,20 @@ sizes  = 'sm'   .6rem
     overflow-x auto
     overflow-y hidden
     -webkit-overflow-scrolling  touch
+    &::-webkit-scrollbar
+        width: 4px
+    &::-webkit-scrollbar-thumb
+        background lightgray
+        border-radius 2px
 .scrolly
     overflow-x hidden
     overflow-y auto
     -webkit-overflow-scrolling  touch
+    &::-webkit-scrollbar
+        width: 4px
+    &::-webkit-scrollbar-thumb
+        background lightgray
+        border-radius 2px
 
 .scroll
     display flex
@@ -225,7 +235,13 @@ sizes  = 'sm'   .6rem
     overflow-y auto
     overflow-x hidden
     -webkit-overflow-scrolling  touch
-
+    &::-webkit-scrollbar
+        width: 4px
+    &::-webkit-scrollbar-thumb
+        //background radial-gradient(lightgray, transparent 90%)
+        //background linear-gradient(180deg, transparent 20%,#acb3c2 50%, transparent 80%)
+        background lightgray
+        border-radius 2px
 
 .abs
     position absolute
