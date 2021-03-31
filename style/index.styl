@@ -209,39 +209,28 @@ sizes  = 'sm'   .6rem
     >._yx
         align-self stretch
 
+scroll()
+    display flex
+    flex 1 1 0
+    -webkit-overflow-scrolling  touch
+    &::-webkit-scrollbar
+        width: 4px
+    &::-webkit-scrollbar-thumb
+        background lightgray
+        border-radius 2px
+        //background radial-gradient(lightgray, transparent 90%)
+        //background linear-gradient(180deg, transparent 20%,#acb3c2 50%, transparent 80%)
+
 .scrollx
     overflow-x auto
     overflow-y hidden
-    -webkit-overflow-scrolling  touch
-    &::-webkit-scrollbar
-        width: 4px
-    &::-webkit-scrollbar-thumb
-        background lightgray
-        border-radius 2px
-.scrolly
-    overflow-x hidden
-    overflow-y auto
-    -webkit-overflow-scrolling  touch
-    &::-webkit-scrollbar
-        width: 4px
-    &::-webkit-scrollbar-thumb
-        background lightgray
-        border-radius 2px
+    scroll()
 
-.scroll
-    display flex
+.scrolly
     flex-flow column nowrap
-    flex 1 1 0
-    overflow-y auto
     overflow-x hidden
-    -webkit-overflow-scrolling  touch
-    &::-webkit-scrollbar
-        width: 4px
-    &::-webkit-scrollbar-thumb
-        //background radial-gradient(lightgray, transparent 90%)
-        //background linear-gradient(180deg, transparent 20%,#acb3c2 50%, transparent 80%)
-        background lightgray
-        border-radius 2px
+    overflow-y auto
+    scroll()
 
 .abs
     position absolute
