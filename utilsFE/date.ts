@@ -37,26 +37,26 @@ Vue.filter('orderTime', function (value){
 })
 
 export function dateToObject(value, trunc) {
- let fields = ['month', 'day', 'hours', 'minute', 'second']
- let f = trunc
-       ? fields.slice(0, fields.indexOf(trunc))
-       : fields
  let gen = {
-         month: () => value.getMonth() + 1,
-         day: () => value.getDate(),
-         hours: () => value.getHours(),
-         minute: () => value.getMinutes(),
-         second: () => value.getSeconds(),
-     }
+     year: () => value.getUTCFullYear(),
+     month: () => value.getMonth() + 1,
+     day: () => value.getDate(),
+     hour: () => value.getHours(),
+     minute: () => value.getMinutes(),
+     second: () => value.getSeconds(),
+ }
+ let fields = Object.keys(gen)
+ let ix = trunc ? fields.indexOf(trunc) : fields.length
  let rx = {}
- for (let i of f) {
-     rx[i] = gen[i]()
+ for (let i=0; i<fields.length; i++) {
+     let n = fields[i]
+     rx[n] = i < ix ? gen[n]() : 0
  }
  return rx
 }
 
 Vue.filter('ObjectToDateStr', ObjectToDateStr)
 
-export function ObjectToDateStr({month, day, hours, minute}){
- return `2018-${month}-${day} ${hours}:${minute}:00`
+export function ObjectToDateStr({month, day, hour, minute}){
+ return `2018-${month}-${day} ${hour}:${minute}:00`
 }
