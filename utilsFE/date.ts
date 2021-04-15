@@ -57,6 +57,6 @@ export function dateToObject(value, trunc) {
 
 Vue.filter('ObjectToDateStr', ObjectToDateStr)
 
-export function ObjectToDateStr({month, day, hour, minute}){
- return `2018-${month}-${day} ${hour}:${minute}:00`
+export function ObjectToDateStr(d){
+ return `${d.year}-${d.month}-${d.day} ${d.hour}:${d.minute}:${d.second}`
 }
